@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pro Career</title>
+<style>
+:root{--bg:#0e1410;--p:#18211b;--p2:#222e26;--g:#b8f34a;--m:#a2afa5;--w:#f4f7f3;--r:#ff6b62;--gt:#16200c;--b:rgba(255,255,255,.09);color-scheme:dark}
+*{box-sizing:border-box;margin:0;padding:0}
+body{margin:0;background:radial-gradient(ellipse at 80% 0,color-mix(in srgb,var(--g) 18%,transparent),transparent 40%),var(--bg);color:var(--w);font:15px Arial,sans-serif;min-height:100vh}
+button,input,select{font:inherit}
+.app{max-width:820px;margin:auto;padding:14px 14px 96px}
+.top{display:flex;align-items:center;gap:10px}.top h1{margin:0;font-size:16px}.top .gr{flex:1}
+.m{color:var(--m)}small{font-size:12px}.g{color:var(--g)}.rd{color:var(--r)}
+.pill{border:1px solid var(--b);border-radius:20px;padding:6px 12px;font-size:12px;color:var(--m);white-space:nowrap}
+.card{background:rgba(24,33,27,.95);border:1px solid var(--b);border-radius:16px;padding:16px;margin:12px 0}
+.card h3{margin:0 0 12px;font-size:14px;letter-spacing:.3px}
+.hero{display:flex;gap:14px;align-items:center}.hero h2{margin:0;font-size:20px}
+.ovr{margin-left:auto;text-align:center}.ovr b{display:block;font-size:32px;color:var(--g)}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.st{background:var(--p2);border-radius:12px;padding:10px;text-align:center}.st b{display:block;font-size:19px;margin-top:3px}
+.match{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;text-align:center;background:var(--p2);border-radius:14px;padding:16px 8px}
+.match>div{display:flex;flex-direction:column;align-items:center;gap:6px;font-weight:700}
+.btn{border:0;border-radius:10px;padding:12px 15px;font-weight:700;cursor:pointer;background:#2c3a30;color:var(--w)}
+.btn.pr{background:var(--g);color:var(--gt)}.btn:disabled{opacity:.4}
+.row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}.row>*{flex:1}
+.bar{height:7px;background:#303a33;border-radius:6px;overflow:hidden;margin-top:5px}.bar i{display:block;height:100%;background:var(--g)}
+.at{margin:10px 0;font-size:13px}.at div:first-child{display:flex;justify-content:space-between}
+table{width:100%;border-collapse:collapse;font-size:13px}td,th{padding:7px 3px;text-align:center}th{color:var(--m);font-weight:400;font-size:11px}
+td:nth-child(2),th:nth-child(2){text-align:left}tr{border-bottom:1px solid var(--b)}
+td .t{display:flex;align-items:center;gap:7px}
+tr.me{background:color-mix(in srgb,var(--g) 13%,transparent)}tr.eu td:first-child{box-shadow:inset 3px 0 var(--g)}tr.rel td:first-child{box-shadow:inset 3px 0 var(--r)}
+.ev{display:flex;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--b);font-size:13px}.ev:last-child{border:0}
+.ev small{display:block;margin-top:3px;color:var(--m)}
+.offer{background:var(--p2);border-radius:12px;padding:12px;margin-bottom:8px}.offer .t{display:flex;gap:10px;align-items:center}
+.sub{display:flex;gap:6px;margin-bottom:4px;overflow-x:auto}
+.sp{background:var(--p);border:1px solid var(--b);color:var(--m);border-radius:20px;padding:8px 14px;white-space:nowrap;cursor:pointer}.sp.on{background:var(--g);color:var(--gt);font-weight:700}
+nav{position:fixed;left:0;right:0;bottom:0;background:#121a15;border-top:1px solid var(--b);display:flex;padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));z-index:4}
+nav button{flex:1;background:none;border:0;color:var(--m);padding:6px 1px;font-size:10px;cursor:pointer;display:flex;flex-direction:column;gap:3px;align-items:center;border-radius:10px;position:relative}
+nav button span{font-size:20px}nav button.on{color:var(--g);background:var(--p2)}
+nav i{position:absolute;top:2px;right:18%;background:var(--r);color:#fff;border-radius:9px;font-size:10px;font-style:normal;padding:1px 5px}
+.bd{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;place-items:center;padding:16px;z-index:9}
+.md{width:min(460px,100%);max-height:88vh;overflow:auto;background:#18211b;border:1px solid var(--b);border-radius:18px;padding:20px}
+.md h2{margin:0 0 8px}.live{min-height:140px;font-size:14px}.live div{padding:5px 0;animation:in .3s}
+@keyframes in{from{opacity:0;transform:translateY(6px)}}
+.score{font-size:26px;text-align:center;margin:8px 0;font-weight:700}
+input,select{width:100%;padding:11px;margin:5px 0 10px;background:#0e1410;color:var(--w);border:1px solid var(--b);border-radius:9px}
+label{font-size:12px;color:var(--m)}.lg{font-size:12px;padding:3px 0;color:var(--m)}
+@media(max-width:560px){.grid{grid-template-columns:repeat(2,1fr)}}
+
+.pg{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.pg.n3{grid-template-columns:repeat(3,1fr)}
+.pc{background:var(--p2);border:1px solid var(--b);border-radius:12px;padding:12px 8px;text-align:center;cursor:pointer;display:flex;flex-direction:column;gap:3px;align-items:center}
+.pc span{font-size:26px}.pc.on{border-color:var(--g);background:color-mix(in srgb,var(--g) 12%,transparent)}.pc.sm{padding:8px 4px}.pc.sm span{font-size:28px}
+/* Splash & Auth */
+.splash{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center}
+.splash .logo{font-size:42px;font-weight:800;letter-spacing:-1px;margin-bottom:6px}
+.splash .logo span{color:var(--g)}
+.splash .tag{color:var(--m);font-size:14px;margin-bottom:32px}
+.splash .menu{width:min(320px,100%);display:flex;flex-direction:column;gap:10px}
+.auth-box{width:min(340px,100%);text-align:left}
+.auth-box h2{text-align:center;margin-bottom:16px}
+.err{color:var(--r);font-size:13px;margin-top:6px;text-align:center}
+.user-bar{font-size:12px;color:var(--m);margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.audio-btn{position:fixed;bottom:70px;right:14px;z-index:6;background:var(--p);border:1px solid var(--b);border-radius:20px;padding:8px 12px;font-size:12px;cursor:pointer;color:var(--m)}
+</style>
+</head>
+<body>
+
+<div id="app-root"></div>
+
+<button class="audio-btn" id="audioBtn" onclick="openCfg()">⚙️ Configurações</button><div class="bd" id="cbd"><div class="md" id="cmd"></div></div>
+
+<script>
+/* ===================== DATA (from original) ===================== */
+const CF={UEFA:"Liga dos Campeões",CONMEBOL:"Libertadores",CONCACAF:"Champions Cup",AFC:"AFC Champions League"};
+const LG={
+"Liga Portugal 🇵🇹":{cf:"UEFA",rel:2,eu:3,t:"Sporting CP:83,SL Benfica:82,FC Porto:82,SC Braga:76,Vitória SC:72,Famalicão:69,Gil Vicente:68,Estoril:68,Moreirense:66,Casa Pia:65,Rio Ave:65,Santa Clara:65,Arouca:64,Nacional:64,Boavista:63,Estrela Amadora:62,AVS:60,Alverca:60"},
+"Premier League 🏴":{cf:"UEFA",rel:3,eu:5,t:"Man. City:90,Arsenal:89,Liverpool:88,Chelsea:84,Man. United:82,Tottenham:82,Newcastle:82,Aston Villa:80,Brighton:77,Crystal Palace:76,West Ham:75,Brentford:75,Bournemouth:75,Fulham:74,Nottm Forest:74,Everton:73,Wolves:71,Leeds:70,Sunderland:68,Burnley:66"},
+"La Liga 🇪🇸":{cf:"UEFA",rel:3,eu:5,t:"Real Madrid:90,Barcelona:89,Atlético Madrid:85,Athletic Club:80,Real Sociedad:79,Villarreal:79,Betis:79,Sevilla:76,Valencia:74,Girona:74,Celta:74,Osasuna:72,Getafe:71,Mallorca:71,Rayo Vallecano:71,Alavés:69,Espanyol:68,Elche:66,Levante:66,Oviedo:64"},
+"Serie A 🇮🇹":{cf:"UEFA",rel:3,eu:5,t:"Inter:86,Napoli:85,Juventus:84,Milan:83,Atalanta:83,Roma:80,Lazio:79,Fiorentina:77,Bologna:77,Torino:73,Como:72,Genoa:71,Udinese:71,Cagliari:68,Parma:68,Lecce:67,Sassuolo:67,Verona:66,Pisa:64,Cremonese:63"},
+"Bundesliga 🇩🇪":{cf:"UEFA",rel:2,eu:4,t:"Bayern:90,Leverkusen:85,Dortmund:85,Leipzig:84,Stuttgart:80,Eintracht:79,Freiburg:76,Hoffenheim:75,Gladbach:74,Wolfsburg:74,Mainz:73,Werder:73,Augsburg:71,Union Berlin:71,Köln:70,Heidenheim:68,St. Pauli:67,Hamburgo:67"},
+"Ligue 1 🇫🇷":{cf:"UEFA",rel:2,eu:3,t:"PSG:88,Marseille:80,Monaco:79,Lyon:78,Lille:78,Nice:76,Lens:76,Rennes:75,Strasbourg:72,Brest:71,Toulouse:70,Nantes:68,Auxerre:66,Angers:65,Lorient:65,Le Havre:64,Paris FC:64,Metz:63"},
+"Eredivisie 🇳🇱":{cf:"UEFA",rel:2,eu:3,t:"PSV:82,Ajax:80,Feyenoord:80,AZ:75,Twente:74,Utrecht:70,Heerenveen:66,Go Ahead Eagles:66,Sparta:66,NEC:66,Groningen:62,NAC Breda:62,Fortuna Sittard:62,Zwolle:60,Heracles:60,Willem II:60,Excelsior:58,Telstar:56"},
+"Pro League 🇧🇪":{cf:"UEFA",rel:2,eu:3,t:"Club Brugge:78,Union SG:76,Anderlecht:75,Genk:73,Gent:71,Antwerp:70,Standard:66,Mechelen:66,Cercle Brugge:65,Westerlo:63,Charleroi:63,OH Leuven:62,Sint-Truiden:62,Zulte Waregem:60,Dender:58,Kortrijk:58"},
+"Süper Lig 🇹🇷":{cf:"UEFA",rel:3,eu:3,t:"Galatasaray:80,Fenerbahçe:80,Beşiktaş:76,Trabzonspor:73,Başakşehir:70,Samsunspor:66,Alanyaspor:63,Konyaspor:63,Göztepe:62,Antalyaspor:62,Kasımpaşa:62,Rizespor:62,Gaziantep:61,Eyüpspor:61,Kayserispor:60,Sivasspor:58,Kocaelispor:58,Bodrum:57"},
+"Premiership 🏴":{cf:"UEFA",rel:1,eu:2,t:"Celtic:75,Rangers:74,Hearts:68,Aberdeen:66,Hibernian:65,Dundee Utd:60,Motherwell:60,Kilmarnock:58,St Mirren:58,Dundee:56,Livingston:55,Falkirk:54"},
+"Brasileirão 🇧🇷":{cf:"CONMEBOL",rel:4,eu:6,t:"Flamengo:81,Palmeiras:81,Botafogo:77,Corinthians:75,Atlético-MG:75,Cruzeiro:74,São Paulo:74,Fluminense:74,Grêmio:74,Internacional:74,Bahia:73,Vasco:72,Fortaleza:72,Athletico-PR:71,Santos:70,Bragantino:70,Vitória:66,Mirassol:65,Juventude:64,Ceará:64"},
+"Liga Argentina 🇦🇷":{cf:"CONMEBOL",rel:2,eu:4,t:"River Plate:77,Boca Juniors:76,Racing:74,Estudiantes:72,Vélez:72,Independiente:70,Talleres:70,Rosario Central:70,Lanús:69,San Lorenzo:68,Argentinos Jrs:66,Huracán:66,Belgrano:66,Godoy Cruz:62,Defensa y Justicia:62,Instituto:60"},
+"Liga MX 🇲🇽":{cf:"CONCACAF",rel:0,eu:4,t:"América:76,Monterrey:75,Tigres:74,Cruz Azul:74,Toluca:74,Chivas:72,Pumas:70,Pachuca:70,León:68,Santos Laguna:65,Atlas:65,Necaxa:62,Tijuana:62,Querétaro:60,Puebla:60,San Luis:60,Mazatlán:58,Juárez:58"},
+"MLS 🇺🇸":{cf:"CONCACAF",rel:0,eu:4,t:"LAFC:72,Inter Miami:70,LA Galaxy:70,Seattle Sounders:70,Columbus Crew:68,FC Cincinnati:68,Philadelphia Union:66,NYCFC:66,Atlanta United:66,Vancouver:66,Nashville SC:66,Portland Timbers:65,Orlando City:65,Austin FC:64,Real Salt Lake:64,Toronto FC:62"},
+"Saudi Pro League 🇸🇦":{cf:"AFC",rel:3,eu:3,t:"Al-Hilal:77,Al-Nassr:76,Al-Ittihad:74,Al-Ahli:74,Al-Qadsiah:70,Al-Shabab:66,Al-Taawoun:64,Al-Ettifaq:64,Al-Fayha:62,Damac:60,Al-Fateh:60,Al-Khaleej:60,Al-Raed:58,Al-Okhdood:56,Al-Riyadh:56,Al-Kholood:55"},
+"J1 League 🇯🇵":{cf:"AFC",rel:2,eu:3,t:"Vissel Kobe:70,Kawasaki Frontale:69,Yokohama F. Marinos:68,Urawa Reds:68,Sanfrecce Hiroshima:68,Kashima Antlers:68,Gamba Osaka:64,Cerezo Osaka:64,FC Tokyo:64,Machida Zelvia:64,Kashiwa Reysol:63,Nagoya Grampus:62,Avispa Fukuoka:60,Albirex Niigata:58,Shimizu S-Pulse:58,Júbilo Iwata:58"}
+};
+const NT={};"🇵🇹|Portugal|80,🇧🇷|Brasil|88,🇦🇷|Argentina|90,🇫🇷|França|90,🏴|Inglaterra|88,🇪🇸|Espanha|90,🇩🇪|Alemanha|85,🇮🇹|Itália|80,🇳🇱|Países Baixos|84,🇧🇪|Bélgica|80,🇭🇷|Croácia|78,🇺🇾|Uruguai|80,🇨🇴|Colômbia|79,🇲🇽|México|76,🇺🇸|EUA|76,🇯🇵|Japão|77,🇸🇦|Arábia Saudita|66,🇲🇦|Marrocos|80,🇸🇳|Senegal|74,🇪🇬|Egito|70,🇹🇷|Turquia|74,🏴|Escócia|70,🇳🇬|Nigéria|70,🇰🇷|Coreia do Sul|74,🇨🇭|Suíça|76,🇩🇰|Dinamarca|75,🇳🇴|Noruega|74,🇪🇨|Equador|72,🇨🇱|Chile|70,🇨🇦|Canadá|70,🇦🇺|Austrália|68,🇩🇿|Argélia|70,🇨🇲|Camarões|68,🇦🇴|Angola|62,🇨🇻|Cabo Verde|64".split(",").forEach(x=>{const[f,n,r]=x.split("|");NT[n]={f,r:+r}});
+const teamsOf=l=>Object.fromEntries(LG[l].t.split(",").map(x=>{const[n,r]=x.split(":");return[n,+r]}));
+const ALL={},CFOF={};for(const l in LG){const t=teamsOf(l);for(const n in t){ALL[n]=t[n];CFOF[n]=LG[l].cf}}
+const POS={"Extremo":{w:{Ritmo:.25,Drible:.25,Remate:.2,Passe:.15,Físico:.1,Defesa:.05},g:.26,a:.22},
+"Ponta de lança":{w:{Remate:.35,Ritmo:.2,Físico:.2,Drible:.1,Passe:.1,Defesa:.05},g:.42,a:.1},
+"Médio ofensivo":{w:{Passe:.3,Drible:.25,Remate:.2,Ritmo:.1,Físico:.1,Defesa:.05},g:.2,a:.3},
+"Médio centro":{w:{Passe:.3,Defesa:.25,Físico:.2,Drible:.1,Ritmo:.1,Remate:.05},g:.08,a:.14},
+"Defesa":{w:{Defesa:.4,Físico:.25,Ritmo:.15,Passe:.1,Drible:.05,Remate:.05},g:.04,a:.06},
+"Guarda-redes":{w:{Defesa:.6,Físico:.15,Passe:.1,Ritmo:.05,Drible:.05,Remate:.05},g:0,a:.01}};
+
+const $=id=>document.getElementById(id);
+const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const C=(v,a,b)=>Math.max(a,Math.min(b,v));
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const shuf=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=R(0,i);[a[i],a[j]]=[a[j],a[i]]}return a};
+function pois(l){let L=Math.exp(-l),k=0,p=1;do{k++;p*=Math.random()}while(p>L);return k-1}
+const KC={};"Sporting CP:008057/fff,SL Benfica:e30613/fff,FC Porto:003a8f/fff,SC Braga:d3202b/fff,Vitória SC:fff/111,Famalicão:1c3f94/fff,Gil Vicente:d4202c/1c2d6b,Estoril:ffd400/1c3f94,Moreirense:0b6b3a/fff,Casa Pia:222/fff,Rio Ave:0a7d3e/fff,Santa Clara:c8102e/fff,Arouca:f2d400/1c3f94,Nacional:111/fff,Boavista:111/fff,Man. City:6cabdd/fff,Arsenal:ef0107/fff,Liverpool:c8102e/fff,Chelsea:034694/fff,Man. United:da020e/fbe122,Tottenham:132257/fff,Newcastle:111/fff,Aston Villa:670e36/95bfe5,Brighton:0057b8/fff,Crystal Palace:1b458f/c4122e,West Ham:7a263a/1bb1e7,Brentford:e30613/fff,Bournemouth:da291c/111,Fulham:fff/111,Nottm Forest:dd0000/fff,Everton:003399/fff,Wolves:fdb913/111,Leeds:fff/1d428a,Sunderland:eb172b/fff,Burnley:6c1d45/99d6ea,Real Madrid:fff/febe10,Barcelona:a50044/004d98,Atlético Madrid:cb3524/fff,Athletic Club:ee2523/fff,Real Sociedad:0067b1/fff,Villarreal:ffe667/005187,Betis:0bb363/fff,Sevilla:fff/d4021d,Valencia:fff/f18a00,Girona:ce1126/fff,Celta:8ac3ee/e5254b,Osasuna:d91a21/0a346f,Getafe:005999/fff,Mallorca:e20613/111,Rayo Vallecano:fff/e53027,Alavés:0761af/fff,Espanyol:007fc8/fff,Elche:fff/057a3d,Levante:0b4aa2/a1122c,Oviedo:1d4f9f/fff,Inter:0068a8/111,Napoli:12a0d7/fff,Juventus:fff/111,Milan:fb090b/111,Atalanta:1e71b8/111,Roma:8e1f2f/f0bc42,Lazio:87d8f7/fff,Fiorentina:5c2d91/fff,Bologna:1a2f5a/a21c26,Torino:8b1a1a/fff,Como:0057b8/fff,Genoa:a41e35/0a2a5e,Udinese:fff/111,Cagliari:a21c26/0a2a5e,Parma:fff/ffd000,Lecce:f2c200/d4021d,Sassuolo:00a651/111,Verona:ffd400/0a2a5e,Pisa:0a2a5e/111,Bayern:dc052d/fff,Leverkusen:e32219/111,Dortmund:fde100/111,Leipzig:dd0741/fff,Stuttgart:fff/e32219,Eintracht:e1000f/111,Freiburg:e2001a/111,Hoffenheim:1961b5/fff,Gladbach:fff/00a650,Wolfsburg:65b32e/fff,Mainz:c3141e/fff,Werder:1d9053/fff,Union Berlin:eb1923/fff,Köln:fff/ed1c24,St. Pauli:6b3a1e/fff,Hamburgo:0069b4/fff,PSG:004170/da291c,Marseille:2faee0/fff,Monaco:e51b24/fff,Lyon:fff/1a3d8f,Lille:e01e13/1a2a6c,Nice:111/c8102e,Lens:f7b600/c8102e,Rennes:e13327/111,Strasbourg:0079c1/fff,Brest:e30613/fff,Toulouse:5c2d91/fff,Nantes:fcd116/00a650,Auxerre:fff/0057b8,Angers:111/fff,Lorient:f58220/111,Metz:8c1c2d/fff,PSV:e30613/fff,Ajax:fff/d2122e,Feyenoord:e30613/fff,AZ:d2122e/fff,Twente:d2122e/fff,Utrecht:d2122e/fff,Heerenveen:1c3f94/fff,Sparta:d2122e/fff,Groningen:00a650/fff,Club Brugge:0057b8/111,Union SG:ffd400/1c3f94,Anderlecht:5b2d8e/fff,Genk:0057b8/fff,Gent:0057b8/fff,Antwerp:d2122e/fff,Standard:e30613/fff,Galatasaray:a90432/fdb913,Fenerbahçe:fcd116/1c2f6b,Beşiktaş:111/fff,Trabzonspor:8c1c2d/6cb6e8,Başakşehir:f58220/1c2f6b,Celtic:00844a/fff,Rangers:1b458f/fff,Hearts:7a1c2f/fff,Aberdeen:e21d2b/fff,Hibernian:00844a/fff,Flamengo:c8102e/111,Palmeiras:006437/fff,Botafogo:111/fff,Corinthians:fff/111,Atlético-MG:111/fff,Cruzeiro:0057b8/fff,São Paulo:fff/e30613,Fluminense:8b1a3c/00844a,Grêmio:0d80bf/111,Internacional:e30613/fff,Bahia:0057b8/e30613,Vasco:111/fff,Fortaleza:0057b8/e30613,Athletico-PR:c8102e/111,Santos:fff/111,Bragantino:fff/e30613,Vitória:e30613/111,Mirassol:ffd400/00844a,Juventude:00844a/fff,Ceará:111/fff,River Plate:fff/e30613,Boca Juniors:0b3d91/fcd116,Racing:7ac5ea/fff,Estudiantes:e30613/fff,Vélez:fff/0b3d91,Independiente:e30613/fff,Talleres:0b3d91/fff,Rosario Central:0b3d91/fcd116,Lanús:8c1c2d/fff,San Lorenzo:0b3d91/e30613,Huracán:fff/e30613,América:fcd116/0b3d91,Monterrey:0b3d91/fff,Tigres:fcd116/0b3d91,Cruz Azul:0b3d91/fff,Toluca:d2122e/fff,Chivas:d2122e/0b3d91,Pumas:0b3d91/fcd116,Pachuca:fff/0b3d91,León:00844a/fff,Santos Laguna:00844a/fff,Atlas:d2122e/111,Necaxa:d2122e/fff,Tijuana:d2122e/111,LAFC:111/c39e6d,Inter Miami:f7b5cd/111,LA Galaxy:fff/00245d,Seattle Sounders:5d9741/005595,Columbus Crew:fde100/111,FC Cincinnati:f05323/003087,Philadelphia Union:071b2c/b19b69,NYCFC:6cace4/f15524,Atlanta United:80000b/111,Vancouver:00245e/9dc2ea,Nashville SC:ece83a/1f1646,Portland Timbers:004812/ebe72b,Orlando City:633492/fff,Austin FC:00b140/111,Real Salt Lake:b30838/f1aa00,Toronto FC:b81137/fff,Al-Hilal:0057b8/fff,Al-Nassr:fcd116/0b3d91,Al-Ittihad:fcd116/111,Al-Ahli:00844a/fff,Al-Shabab:fff/00844a,Vissel Kobe:8c1c2d/111,Kawasaki Frontale:6cb6e8/111,Yokohama F. Marinos:0b3d91/fff,Urawa Reds:d2122e/111,Sanfrecce Hiroshima:5b2d8e/fff,Kashima Antlers:8c1c2d/fff,Gamba Osaka:0b3d91/111,Cerezo Osaka:f06eaa/0b3d91,FC Tokyo:0b3d91/d2122e".split(",").forEach(x=>{const[n,c]=x.split(":"),[a,b]=c.split("/");KC[n]=["#"+a,"#"+b]});
+const kc=n=>KC[n]||["#b8f34a","#222e26"];
+const lum=h=>{h=h.replace("#","");if(h.length===3)h=h.replace(/./g,"$&$&");return(parseInt(h.slice(0,2),16)*299+parseInt(h.slice(2,4),16)*587+parseInt(h.slice(4,6),16)*114)/1000};
+function badge(n,s=30){const k=KC[n];if(!k||NT[n])return badge0(n,s);
+ const w=n.replace(/[.\-]/g," ").split(" ").filter(Boolean),t=(w.length>1?w.map(x=>x[0]).join("").slice(0,3):n.slice(0,3)).toUpperCase();
+ return`<svg width="${s}" height="${s}" viewBox="0 0 32 32" style="flex:none"><path d="M3 3h26v14c0 8-7 12-13 14C10 29 3 25 3 17z" fill="${k[0]}" stroke="${k[1]}" stroke-width="2"/><path d="M3 11h26" stroke="${k[1]}" opacity=".6"/><text x="16" y="21" text-anchor="middle" font-size="${t.length>2?9:11}" font-weight="700" fill="${lum(k[0])>150?"#111":"#fff"}" font-family="Arial">${esc(t)}</text></svg>`}
+function badge0(n,s=30){if(NT[n])return`<span style="font-size:${s-4}px;line-height:1">${NT[n].f}</span>`;let h=0;for(const c of n)h=(h*31+c.charCodeAt(0))%360;
+ const w=n.replace(/[.\-]/g," ").split(" ").filter(Boolean);const t=(w.length>1?w.map(x=>x[0]).join("").slice(0,3):n.slice(0,3)).toUpperCase(),a=`hsl(${(h+40)%360} 70% 72%)`;
+ return`<svg width="${s}" height="${s}" viewBox="0 0 32 32" style="flex:none"><path d="M3 3h26v14c0 8-7 12-13 14C10 29 3 25 3 17z" fill="hsl(${h} 55% 36%)" stroke="${a}" stroke-width="1.6"/><path d="M3 11h26" stroke="${a}" opacity=".5"/><text x="16" y="21" text-anchor="middle" font-size="${t.length>2?9:11}" font-weight="700" fill="#fff" font-family="Arial">${esc(t)}</text></svg>`}
+
+/* ===================== ACCOUNT SYSTEM ===================== */
+let currentUser = null;
+let S = null;
+let tab = "home", sub = "liga", ws = "sel";
+
+function getUsers(){ try{ return JSON.parse(localStorage.getItem("pc_users")||"{}"); }catch(e){return {}} }
+function saveUsers(u){ localStorage.setItem("pc_users", JSON.stringify(u)); }
+function getSaveKey(){ return currentUser ? `pc_save_${currentUser}` : null; }
+function loadCareer(){ 
+  const k=getSaveKey(); if(!k) return null;
+  try{ return JSON.parse(localStorage.getItem(k)); }catch(e){return null}
+}
+function saveCareer(){ 
+  const k=getSaveKey(); if(!k||!S) return;
+  try{ 
+    localStorage.setItem(k, JSON.stringify(S)); 
+    // backup extra
+    localStorage.setItem(k+"_bak", JSON.stringify(S));
+  }catch(e){ console.error("save error", e); }
+}
+window.addEventListener("beforeunload", function(){ try{ saveCareer(); }catch(e){} });
+
+
+/* ===================== SCREENS ===================== */
+function showSplash(){
+  
+  $("app-root").innerHTML = `
+  <div class="splash">
+    <svg viewBox="0 0 360 190" width="min(380px,100%)" style="margin-bottom:10px;border-radius:18px;border:1px solid var(--b)"><defs><linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#050a07"/><stop offset="1" stop-color="#17321f"/></linearGradient><radialGradient id="gl"><stop offset="0" stop-color="#fff" stop-opacity=".95"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient><pattern id="cr" width="9" height="7" patternUnits="userSpaceOnUse"><circle cx="2" cy="3" r="1.7" fill="#2b4a37"/><circle cx="6.5" cy="2" r="1.5" fill="#3a6048"/><circle cx="5" cy="5.5" r="1.4" fill="#1f3a2b"/></pattern></defs><rect width="360" height="190" fill="url(#sk)"/><g fill="#fff"><circle cx="40" cy="14" r="1"><animate attributeName="opacity" values="1;.2;1" dur="2.5s" repeatCount="indefinite"/></circle><circle cx="120" cy="26" r="1.2"/><circle cx="200" cy="10" r="1"><animate attributeName="opacity" values=".2;1;.2" dur="3s" repeatCount="indefinite"/></circle><circle cx="270" cy="22" r="1.2"/><circle cx="330" cy="12" r="1"/></g><path d="M0 86 Q180 40 360 86 V190 H0Z" fill="#0b1b11"/><path d="M0 86 Q180 40 360 86 V112 Q180 70 0 112Z" fill="url(#cr)"/><path d="M30 190 L96 112 H264 L330 190Z" style="fill:var(--g)" opacity=".18"/><path d="M30 190 L96 112 H264 L330 190Z" fill="none" style="stroke:var(--g)" stroke-width="1.6"/><path d="M180 112 V190" style="stroke:var(--g)" opacity=".45"/><ellipse cx="180" cy="162" rx="46" ry="12" fill="none" style="stroke:var(--g)" stroke-width="1.3"/><path d="M16 38 V120 M344 38 V120" stroke="#3a4a40" stroke-width="3"/><circle cx="16" cy="36" r="30" fill="url(#gl)"><animate attributeName="opacity" values=".6;1;.6" dur="3s" repeatCount="indefinite"/></circle><circle cx="344" cy="36" r="30" fill="url(#gl)"><animate attributeName="opacity" values="1;.6;1" dur="3s" repeatCount="indefinite"/></circle><path d="M16 36 L96 112 M344 36 L264 112" stroke="#fff" opacity=".07" stroke-width="14"/><circle cx="176" cy="104" r="7" fill="#e8bd98"/><path d="M169 103a7 7 0 0114 0z" fill="#2a1d14"/><path d="M168 112 L184 112 L187 140 L165 140Z" style="fill:var(--g)"/><path d="M166 140 H186 L187 150 H165Z" fill="#121c16"/><path d="M167 150 L164 176 L170 176 L172 150Z" fill="#e8bd98"/><path d="M163 176 H172 V180 H161Z" fill="#fff"/><path d="M180 150 L204 164 L201 170 L177 157Z" fill="#e8bd98"/><path d="M201 168 L208 164 L210 169 L203 173Z" fill="#fff"/><path d="M168 116 L152 128 M184 116 L200 106" stroke="#e8bd98" stroke-width="4" stroke-linecap="round"/><circle cx="216" cy="170" r="6.5" fill="#fff"><animateTransform attributeName="transform" type="translate" values="0 0;40 -46;84 -6;0 0" dur="2.6s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;1;.3;1" dur="2.6s" repeatCount="indefinite"/></circle><g transform="translate(306 132)"><path d="M0 0H22V12Q22 24 11 26Q0 24 0 12Z" fill="#e8c14a"/><rect x="8" y="26" width="6" height="8" fill="#c9a22e"/><rect x="3" y="34" width="16" height="4" rx="1" fill="#c9a22e"/></g></svg><div class="logo">PRO <span>CAREER</span></div>
+    <div class="tag">Modo Carreira de Jogador</div><div class="sub" style="justify-content:center;margin-bottom:18px">${[["pt","Português (BR)"],["en","English"],["es","Español"]].map(([k,n])=>`<button class="sp ${cfg.lang===k?"on":""}" onclick="setCfg('lang','${k}')">${n}</button>`).join("")}</div>
+    ${sw()}<div class="menu">
+      <button class="btn pr" onclick="showLogin()">Entrar</button>
+      <button class="btn" onclick="showRegister()">Criar Conta</button>
+    </div>
+  </div>`;
+}
+
+function showLogin(){
+  $("app-root").innerHTML = `
+  <div class="splash">
+    <div class="auth-box card">
+      <h2>Entrar</h2>
+      <label>Usuário</label>
+      <input id="user" placeholder="Seu usuário" maxlength="20">
+      <label>Senha</label>
+      <input id="pass" type="password" placeholder="Senha" maxlength="30">
+      <div class="err" id="err"></div>
+      <div class="row" style="margin-top:14px">
+        <button class="btn" onclick="showSplash()">Voltar</button>
+        <button class="btn pr" onclick="doLogin()">Entrar</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function showRegister(){
+  $("app-root").innerHTML = `
+  <div class="splash">
+    <div class="auth-box card">
+      <h2>Criar Conta</h2>
+      <label>Usuário</label>
+      <input id="user" placeholder="Escolha um usuário" maxlength="20">
+      <label>Senha</label>
+      <input id="pass" type="password" placeholder="Mínimo 4 caracteres" maxlength="30">
+      <label>Confirmar Senha</label>
+      <input id="pass2" type="password" placeholder="Repita a senha" maxlength="30">
+      <div class="err" id="err"></div>
+      <div class="row" style="margin-top:14px">
+        <button class="btn" onclick="showSplash()">Voltar</button>
+        <button class="btn pr" onclick="doRegister()">Criar</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function doRegister(){
+  const u = $("user").value.trim().toLowerCase();
+  const p = $("pass").value;
+  const p2 = $("pass2").value;
+  const err = $("err");
+  if(u.length<3){ err.textContent="Usuário precisa ter pelo menos 3 caracteres."; return; }
+  if(p.length<4){ err.textContent="Senha precisa ter pelo menos 4 caracteres."; return; }
+  if(p!==p2){ err.textContent="As senhas não coincidem."; return; }
+  const users = getUsers();
+  if(users[u]){ err.textContent="Este usuário já existe."; return; }
+  users[u] = {pass:p, created:Date.now()};
+  saveUsers(users);
+  currentUser = u;
+  afterLogin();
+}
+
+function doLogin(){
+  const u = $("user").value.trim().toLowerCase();
+  const p = $("pass").value;
+  const err = $("err");
+  const users = getUsers();
+  if(!users[u] || users[u].pass !== p){ err.textContent="Usuário ou senha incorretos."; return; }
+  currentUser = u;
+  afterLogin();
+}
+
+function afterLogin(){
+  
+  S = loadCareer();
+  if(S){
+    // continue existing career
+    tab="home";
+    renderGame();
+  } else {
+    // new career
+    startCreate();
+  }
+}
+
+function logout(){
+  if(S) saveCareer();
+  S=null; currentUser=null;
+  showSplash();
+}
+
+/* ===================== CAREER CORE (from original, adapted) ===================== */
+const ovr=()=>Math.round(Object.entries(POS[S.pos].w).reduce((s,[k,w])=>s+w*S.at[k],0));
+const yl=y=>`${y}/${String(y+1).slice(2)}`;
+const val=()=>{const v=.1*Math.exp((ovr()-50)/8)*(S.age<23?1.5:S.age<29?1:S.age<33?.6:.3)*(1+S.rep/150);return v<10?v.toFixed(1):Math.round(v)};
+const wage=()=>+(Math.max(.03,+val()*.14*(S.wm||1))).toFixed(2);
+const isN=k=>k==="tor"||k==="nat",ent=k=>isN(k)?S.nat:S.club;
+const RT=(n,k)=>isN(k)?NT[n].r:(S.teams[n]??ALL[n]??60);
+const KN=n=>n<=2?"Final":n<=4?"Meias-finais":n<=8?"Quartos":n<=16?"Oitavos":"Eliminatória";
+const CN={};"UEFA:Portugal,França,Inglaterra,Espanha,Alemanha,Itália,Países Baixos,Bélgica,Croácia,Turquia,Escócia,Suíça,Dinamarca,Noruega|CONMEBOL:Brasil,Argentina,Uruguai,Colômbia,Equador,Chile|CONCACAF:México,EUA,Canadá|AFC:Japão,Arábia Saudita,Coreia do Sul,Austrália|CAF:Marrocos,Senegal,Egito,Nigéria,Argélia,Camarões,Angola,Cabo Verde".split("|").forEach(x=>{const[c,l]=x.split(":");l.split(",").forEach(n=>CN[n]=c)});
+const CT={UEFA:"Eurocopa",CONMEBOL:"Copa América",CONCACAF:"Copa Ouro",AFC:"Copa da Ásia",CAF:"Copa Africana de Nações"};
+const tn=(y,c)=>{if(y<2027)return null;const o=y%2?{UEFA:"Liga das Nações",CAF:CT.CAF,CONCACAF:CT.CONCACAF,AFC:y%4===3?CT.AFC:0}[c]:y%4===2?"Copa do Mundo":{UEFA:CT.UEFA,CONMEBOL:CT.CONMEBOL}[c];return o?o+" "+y:null};
+const tourYear=()=>tn(S.y+1,CN[S.nat]);
+function log(i,t,d){S.log.unshift({i,t,d});S.log=S.log.slice(0,25)}
+function callP(){return C((ovr()-(NT[S.nat].r-22))/22,0,.9)+S.rep/400}
+
+function newCareer(name,pos,nat,league,club){
+ const base=R(58,63),at={};for(const[k,w]of Object.entries(POS[pos].w))at[k]=C(base+Math.round((w-.15)*60)+R(-3,3),25,99);
+ S={name,pos,nat,age:17,league,club,at,pot:R(80,92),energy:100,rep:5,inj:0,trained:false,y:2026,step:0,log:[],hist:[],ach:[],offers:[],tot:{m:0,g:0,a:0},nt:{m:0,g:0,a:0},called:null,ss:{m:0,g:0,a:0,rs:0,rn:0}};
+ S.teams=teamsOf(league);
+ const rk=Object.entries(S.teams).sort((a,b)=>b[1]-a[1]).findIndex(x=>x[0]===club)+1;S.q=rk<=LG[league].eu;
+ setup(false);log("👋","A tua carreira começou!",`Assinaste pelo ${club} aos 17 anos.`);
+ saveCareer();
+}
+
+function setup(drift=true){
+ if(drift)for(const k in S.teams)S.teams[k]=C(S.teams[k]+R(-2,2),50,95);
+ const n=Object.keys(S.teams),N=n.length;let a=[...n],rd=[];
+ for(let r=0;r<N-1;r++){const ps=[];for(let i=0;i<N/2;i++){const x=a[i],y=a[N-1-i];ps.push(r%2?[y,x]:[x,y])}rd.push(ps);a=[a[0],a.pop(),...a.slice(1)]}
+ rd=rd.concat(rd.map(ps=>ps.map(([x,y])=>[y,x])));
+ const L=rd.length,it=rd.map((_,i)=>({p:i,t:"L",r:i})),kc=Math.ceil(Math.log2(N));
+ S.ko={cup:{name:"Taça",alive:n,log:[],res:""}};
+ for(let k=0;k<kc;k++)it.push({p:L*(k+1)/(kc+1)-.5,t:"K",key:"cup"});
+ const cf=LG[S.league].cf;
+ if(S.q){const top=Object.keys(ALL).filter(x=>CFOF[x]===cf&&x!==S.club).sort((a,b)=>ALL[b]-ALL[a]).slice(0,15);
+  S.ko.con={name:CF[cf],alive:[S.club,...top],log:[],res:""};[.2,.4,.6,.8].forEach(f=>it.push({p:L*f-.25,t:"K",key:"con"}))}
+ [.33,.66].forEach(f=>it.push({p:L*f-.1,t:"N"}));
+ S.tor=tourYear();S.called=null;
+ if(S.tor){const wc=S.tor.startsWith("Copa do Mundo"),sr=(a,b)=>NT[b].r-NT[a].r,o0=Object.keys(NT).filter(x=>x!==S.nat),o=wc?o0.sort(sr).slice(0,15):[...o0.filter(x=>CN[x]===CN[S.nat]).sort(sr),...o0.filter(x=>CN[x]!==CN[S.nat]).sort(sr)].slice(0,15);
+  S.ko.tor={name:S.tor,alive:[S.nat,...o],log:[],res:""};for(let k=0;k<4;k++)it.push({p:1e3+k,t:"K",key:"tor",k})}
+ S.cal=it.sort((x,y)=>x.p-y.p);S.rd=rd;S.step=0;S.tb=Object.fromEntries(n.map(x=>[x,{p:0,w:0,d:0,l:0,f:0,a:0}]));S.ss={m:0,g:0,a:0,rs:0,rn:0};S.inj=0;S.trained=false}
+
+function sim(h,a,k){const d=RT(h,k)+(k==="tor"?0:3)-RT(a,k);return[pois(1.4*Math.exp(d/28)),pois(1.15*Math.exp(-d/28))]}
+function tbAdd(h,a,gh,ga){const H=S.tb[h],A=S.tb[a];H.p++;A.p++;H.f+=gh;H.a+=ga;A.f+=ga;A.a+=gh;
+ if(gh>ga){H.w++;A.l++}else if(gh<ga){A.w++;H.l++}else{H.d++;A.d++}}
+function myPart(cup,r){const d=ovr()-r;let ps=C((d+14)/16,.03,.95)+(cup?.2:0);if(S.energy<25)ps*=.6;
+ if(S.inj>0)return 0;const x=Math.random();return x<ps?R(70,90):x<ps+.3?R(15,40):0}
+function playerMatch(h,a,cup,k){
+ const E=ent(k),home=h===E;let mins=myPart(cup,RT(E,k));if(k==="tor"&&!S.called)mins=0;
+ const[gh,ga]=sim(h,a,k),my=home?gh:ga,op=home?ga:gh,ev=[];let pg=0,pa=0;
+ const f=C(.8+.2*S.energy/100,.8,1),skill=(.6+ovr()/100)*f;
+ for(let i=0;i<my;i++){const m=R(3,90);
+  if(Math.random()<POS[S.pos].g*mins/90*skill*1.4){pg++;ev.push({m,t:`⚽ ${m}' GOLO de ${S.name}!`})}
+  else if(Math.random()<POS[S.pos].a*mins/90*skill*1.4){pa++;ev.push({m,t:`🅰️ ${m}' Assistência tua! Golo de ${E}.`})}
+  else ev.push({m,t:`⚽ ${m}' Golo de ${E}.`})}
+ for(let i=0;i<op;i++){const m=R(3,90);ev.push({m,t:`🥅 ${m}' Golo de ${home?a:h}.`})}
+ if(mins>0&&!pg&&!pa)ev.push({m:R(10,80),t:`💬 Tiveste uma boa oportunidade, mas a bola saiu ao lado.`});
+ ev.sort((x,y)=>x.m-y.m);let pen=null;
+ if(cup&&gh===ga){pen=Math.random()<.5+(RT(h,k)-RT(a,k))/100?h:a;ev.push({m:120,t:`🎯 Desempate por penáltis: vence ${pen}.`})}
+ let rt=null;if(mins>0)rt=Math.round(C(6+(my-op)*.35+pg+pa*.6+(Math.random()-.5)*1.4+(ovr()-RT(E,k))/40,4,10)*10)/10;
+ return{gh,ga,pen,ev,mins,pg,pa,rt}}
+function applyMe(r,k){const n=isN(k),t=n?S.nt:S.tot,s=S.ss;
+ if(r.mins>0){t.m++;t.g+=r.pg;t.a+=r.pa;if(!n){s.m++;s.g+=r.pg;s.a+=r.pa;s.rs+=r.rt;s.rn++}
+  S.rep=C(S.rep+r.pg*1.3+r.pa*.7+(r.rt-6.5)*.4,0,100);S.energy=Math.max(5,S.energy-Math.round(25*r.mins/90))}
+ const A=(k2,t2,d)=>{if(!S.ach.includes(k2)){S.ach.push(k2);log("🏅","Conquista: "+t2,d)}};
+ if(!n&&r.pg>=3)A("ht","Hat-trick","Três golos num só jogo.");
+ if(S.tot.m>=1&&r.mins>0)A("deb","Estreia oficial","Primeiros minutos na equipa principal.");
+ if(S.tot.g>=1)A("g1","Primeiro golo","Nunca vais esquecer este momento.");
+ if(n&&r.mins>0)A("cap","Estreia pela Seleção","Vestiste a camisola de "+S.nat+"!");
+ if(n&&S.nt.g>=1)A("ng","Golo pela Seleção","Marcaste ao serviço de "+S.nat+".");
+ [10,50,100].forEach(x=>{if(S.tot.g>=x)A("g"+x,x+" golos","Marco na tua carreira.")})}
+
+function roundKo(key,me){const kk=S.ko[key],E=ent(key);let q=shuf(kk.alive),bye=null;
+ if(q.length%2){const i=q.findIndex(x=>x!==E);bye=q.splice(i,1)[0]}
+ const nx=bye?[bye]:[],out=[];let mine=null;
+ for(let i=0;i<q.length;i+=2){const h=q[i],a=q[i+1];if(me&&(h===E||a===E)){mine=[h,a];continue}
+  const[x,y]=sim(h,a,key);nx.push(x>y?h:y>x?a:Math.random()<.5?h:a);out.push(`${h} ${x}-${y} ${a}`)}
+ return{nx,out,mine}}
+function runStep(){
+ const it=S.cal[S.step];let res=null;
+ if(it.t==="L"){let pair=null;for(const[h,a]of S.rd[it.r]){if(h===S.club||a===S.club){pair=[h,a];continue}const[x,y]=sim(h,a,"liga");tbAdd(h,a,x,y)}
+  const r=playerMatch(pair[0],pair[1],false,"liga");tbAdd(pair[0],pair[1],r.gh,r.ga);applyMe(r,"liga");res={r,h:pair[0],a:pair[1],c:`${S.league.split(" ")[0]} · Jornada ${it.r+1}`,key:"liga"}}
+ else if(it.t==="N"){
+  if(Math.random()<callP()){const o=shuf(Object.keys(NT).filter(x=>x!==S.nat))[0],hm=Math.random()<.5;
+   if(!S.ach.includes("conv")){S.ach.push("conv");log(NT[S.nat].f,"Primeira convocatória!","Foste chamado à Seleção.")}
+   const r=playerMatch(hm?S.nat:o,hm?o:S.nat,false,"nat");applyMe(r,"nat");res={r,h:hm?S.nat:o,a:hm?o:S.nat,c:"Seleção · Jogo oficial",key:"nat"}}
+  else log("📋","Não foste convocado",`${S.nat} chamou outros jogadores desta vez.`)}
+ else{const key=it.key,kk=S.ko[key],E=ent(key);
+  if(key==="tor"&&it.k===0){S.called=Math.random()<callP()+.1;log(S.called?"🌍":"📋",S.called?"Convocado para o "+kk.name+"!":"Ficaste fora da lista do "+kk.name,S.called?"Vais representar "+S.nat+".":"Não entraste nos convocados.")}
+  const n=kk.alive.length,mine=kk.alive.includes(E)&&(key!=="tor"||S.called);
+  const{nx,out,mine:m}=roundKo(key,mine);
+  if(mine){const r=playerMatch(m[0],m[1],true,key),w=r.gh>r.ga?m[0]:r.ga>r.gh?m[1]:r.pen;nx.push(w);out.unshift(`${m[0]} ${r.gh}-${r.ga} ${m[1]}${r.pen?" (pen.)":""}`);
+   kk.res=w===E?(n<=2?"🏆 Campeão":"Passou os "+KN(n).toLowerCase()):"Eliminado: "+KN(n);applyMe(r,key);
+   if(w!==E)log("😞","Eliminado: "+kk.name,`Caíste em ${KN(n).toLowerCase()}.`);else if(n<=2){S.rep=C(S.rep+10,0,100);log("🏆","CAMPEÃO: "+kk.name+"!","Levantaste o troféu!")}
+   res={r,h:m[0],a:m[1],c:`${kk.name} · ${KN(n)}`,key}}
+  kk.log.push({n:KN(n),out});kk.alive=nx}
+ S.step++;
+ if(res){S.energy=Math.min(100,S.energy+28);S.trained=false;if(S.inj>0)S.inj--;
+  else if(res.r.mins>0&&Math.random()<(S.energy<35?.09:.025)){S.inj=R(1,4);log("🤕","Lesão!",`Vais falhar ${S.inj} jogos.`)}}
+ if([.15,.3,.5,.7,.85].some(f=>S.step===Math.floor(S.cal.length*f)))genOffers();
+ return res}
+function genOffers(n){const o2=ovr(),big=S.rep>=15||o2>=68,pool=[];
+ for(const l in LG){const t=teamsOf(l);for(const x in t){if(x===S.club||S.offers.some(y=>y.club===x))continue;const d=t[x]-o2;
+  if((d>=0&&d<=14+S.rep/4)||(big&&t[x]>=80&&d<=22+S.rep/3))pool.push({club:x,league:l,s:t[x]})}}
+ n=n||R(1,2);const add=[];
+ for(let i=0;i<n&&pool.length;i++){let p=shuf(pool).slice(0,3).sort((a,b)=>b.s-a.s)[0];if(Math.random()<.4)p=pool[R(0,pool.length-1)];pool.splice(pool.indexOf(p),1);add.push({club:p.club,league:p.league,wm:+(1.05+Math.random()*.6).toFixed(2)})}
+ if(add.length){S.offers=[...add,...S.offers].slice(0,8);log("📨","Novas propostas no Mercado!",add.map(x=>x.club).join(", ")+" têm interesse em ti.")}}
+const sortT=(a,b)=>{const x=a[1],y=b[1];return (x.w*3+x.d)-(y.w*3+y.d)||(x.f-x.a)-(y.f-y.a)||x.f-y.f};
+function endSeason(){
+ try{
+  const t=Object.entries(S.tb||{}).sort((a,b)=>sortT(b,a));
+  const pos=Math.max(1,t.findIndex(x=>x[0]===S.club)+1);
+  const n=t.length||1;
+  const L=LG[S.league]||{eu:3,rel:2,cf:"Continental"};
+  const champ=(t[0]&&t[0][0])||S.club;
+  const s=S.ss||{m:0,g:0,a:0,rs:0,rn:0};
+  const avg=s.rn?(s.rs/s.rn).toFixed(1):"—";
+  const eu=pos<=L.eu?"Qualificado para a competição continental":L.rel&&pos>n-L.rel?"Zona de descida":"Meio da tabela";
+  if(!S.hist) S.hist=[];
+  S.hist.unshift({y:yl(S.y),club:S.club,pos,g:s.g,a:s.a,m:s.m,rt:avg});S.hist=S.hist.slice(0,60);S.money=+((S.money||0)+wage()).toFixed(2);S.tro=S.tro||[];
+  if(champ===S.club)S.tro.push({y:yl(S.y),t:S.league});["cup","con","tor"].forEach(k=>{if(S.ko&&S.ko[k]&&S.ko[k].res==="🏆 Campeão")S.tro.push({y:yl(S.y),t:S.ko[k].name})});
+  if(S.rep>=60&&avg>=7.4&&s.g>=12){S.tro.push({y:yl(S.y),t:"Bola de Ouro"});S.rep=C(S.rep+5,0,100);log("🥇","Bola de Ouro!","És o melhor jogador do mundo.")}
+  if(champ===S.club){S.rep=C((S.rep||0)+15,0,100);log("🏆","CAMPEÃO NACIONAL!",`${S.club} venceu a ${S.league}.`)}
+  const ex=["cup","con","tor"].filter(k=>S.ko&&S.ko[k]).map(k=>`<p>${S.ko[k].name}: <b>${S.ko[k].res||"Não participaste"}</b></p>`).join("");
+  const msg=`<p>${S.club} terminou em <b>${pos}.º</b> (${eu}). Campeão: <b>${champ}</b></p>${ex}<p>Tu: ${s.m} jogos, ${s.g} golos, ${s.a} assistências, nota média ${avg}.</p>`;
+  S.q=pos<=L.eu;
+  S.age=(S.age||17)+1;
+  S.y=(S.y||2026)+1;
+  const pl=s.m>=18?(s.rn&&s.rs/s.rn>=7?1:0):(s.m<8?-1:0),ys=Math.max(-3,(S.age<=20?R(0,2):S.age<=23?R(0,1)+(Math.random()<.3?1:0):S.age<=27?(Math.random()<.5?1:0):S.age<=30?-R(0,1):-R(1,3))+pl);
+  for(const k in S.at){let d=ys;if(S.age>29&&(k==="Ritmo"||k==="Físico"))d-=1;if(S.age<=28)d=Math.min(d,Math.max(0,(S.pot||85)-ovr()+1));S.at[k]=C(S.at[k]+d,25,99)}
+  // sempre prepara a próxima temporada
+  setup(true);
+  S.offers=[];genOffers(R(3,5));
+  log("🎉","Nova época "+yl(S.y),`Tens ${S.age} anos e overall ${ovr()}.`);
+  saveCareer();
+  modal(`<h2>🏁 Fim da época ${yl(S.y-1)}</h2>${msg}<p class="m">Agora tens ${S.age} anos e overall ${ovr()}.${(S.offers&&S.offers.length)?" Há propostas no Mercado.":""}</p><button class="btn pr" style="width:100%" onclick="startNextSeason()">Começar Nova Temporada</button>${S.age>=38?'<button class="btn" style="width:100%;margin-top:8px" onclick="if(confirm(\'Aposentar e começar outra carreira?\'))resetC()">Aposentar-me</button>':""}`);
+ }catch(err){
+  console.error("endSeason error",err);
+  // fallback: força próxima temporada mesmo com erro
+  S.age=(S.age||17)+1; S.y=(S.y||2026)+1;
+  try{setup(true)}catch(e){console.error(e)}
+  saveCareer();
+  modal(`<h2>Nova Temporada</h2><p>A época anterior terminou.</p><p class="m">Agora é ${yl(S.y)}. Overall: ${ovr()}</p><button class="btn pr" onclick="startNextSeason()">Começar Nova Temporada</button>`);
+ }
+}
+function startNextSeason(){
+  try{
+    if(!S.cal||S.step>=S.cal.length)setup(true);
+    S.step = 0;
+    S.trained = false;
+    S.inj = 0;
+    if(!S.ss) S.ss = {m:0,g:0,a:0,rs:0,rn:0};
+    tab = "home";
+    saveCareer();
+  }catch(e){
+    console.error("startNextSeason", e);
+  }
+  // fecha modal e desenha a tela de novo
+  const bd = document.getElementById("bd");
+  if(bd) bd.style.display = "none";
+  renderGame();
+}
+function modal(h){$("md").innerHTML=h;$("bd").style.display="grid"}
+function closeM(){$("bd").style.display="none";renderGame()}
+function resetC(){S=null;const k=getSaveKey();if(k)localStorage.removeItem(k);closeM();startCreate()}
+
+let timer=null,PM=null;
+function playNext(){
+ if(!S){return}
+ if(!S.cal || !S.cal.length){ try{setup(true)}catch(e){console.error(e)} }
+ let res=null;
+ try{
+  while(S.step < (S.cal?S.cal.length:0)){
+    res=runStep();
+    if(res) break;
+  }
+ }catch(e){console.error(e)}
+ const ended = !S.cal || S.step >= S.cal.length;
+ if(!res){
+  if(ended){ endSeason(); }
+  else { saveCareer(); renderGame(); }
+  return;
+ }
+ PM={res,ended};cfg.lineup?lineup(res,ended):liveMatch(res,ended)}
+function liveMatch(res,ended){const{r,h,a,c}=res,pre=S.inj>0&&r.mins===0?"🤕 Estás lesionado e vês o jogo das bancadas.":r.mins===0?"🪑 Não saíste do banco.":r.mins>=60?"✅ Foste titular.":"🔄 Entraste do banco.";
+ const lines=[`🏟️ ${c}: ${h} vs ${a}`,pre,...r.ev.map(e=>e.t)];
+ modal(`<h2>${esc(c)}</h2><div class="score" id="sc">${esc(h)} 0-0 ${esc(a)}</div><div class="live" id="lv"></div><div class="row"><button class="btn" id="sk">Saltar</button></div>`);
+ let i=0;const out=$("lv");
+ const fin=()=>{clearInterval(timer);try{speechSynthesis.cancel()}catch(e){}out.innerHTML=lines.map(x=>`<div>${esc(x)}</div>`).join("");$("sc").textContent=`${h} ${r.gh}-${r.ga} ${a}`;
+  out.insertAdjacentHTML("beforeend",`<div class="g">${r.rt?`Nota: <b>${r.rt}</b> · ${r.pg} golos · ${r.pa} assistências`:"Sem minutos neste jogo"}</div>`);
+  $("sk").textContent="Continuar";$("sk").className="btn pr";$("sk").onclick=()=>{closeM();if(ended)endSeason();saveCareer()};saveCareer()};
+ $("sk").onclick=fin;
+ timer=setInterval(()=>{if(i>=lines.length){fin();return}out.insertAdjacentHTML("beforeend",`<div>${esc(lines[i])}</div>`);narr(lines[i]);i++;out.parentNode.scrollTop=1e5},cfg.narr?Math.max(cfg.speed,2600):cfg.speed)}
+const FN="Lucas,Mateus,Rafael,Pedro,João,Diego,Marco,Luca,Hugo,Carlos,André,Felix,Jonas,Kevin,Tomás,Bruno,Iván,Omar,Yusuf,Kai,Leo,Nico,Samir,Erik".split(","),LN="Silva,Santos,Costa,Rossi,Müller,Garcia,Martin,Dubois,Haddad,Okafor,Novak,Jansen,Moreau,Bianchi,Pereira,Lopes,Schmidt,Ito,Kim,Alves,Duarte,Vega,Ferrari,Hansen".split(",");
+const FM={"4-3-3":"GR,LD,ZC,ZC,LE,MC,MC,MC,PD,PL,PE","4-4-2":"GR,LD,ZC,ZC,LE,MD,MC,MC,ME,PL,PL","4-2-3-1":"GR,LD,ZC,ZC,LE,VL,VL,PD,MO,PE,PL","3-5-2":"GR,ZC,ZC,ZC,MD,MC,VL,MC,ME,PL,PL","3-4-3":"GR,ZC,ZC,ZC,MD,MC,MC,ME,PD,PL,PE","5-3-2":"GR,LD,ZC,ZC,ZC,LE,MC,MC,MC,PL,PL","4-1-4-1":"GR,LD,ZC,ZC,LE,VL,MD,MC,MC,ME,PL","4-3-1-2":"GR,LD,ZC,ZC,LE,MC,MC,MC,MO,PL,PL"};
+const PS={"Extremo":["PD","PE","MD","ME"],"Ponta de lança":["PL"],"Médio ofensivo":["MO","MC"],"Médio centro":["MC","VL"],"Defesa":["ZC","LD","LE"],"Guarda-redes":["GR"]};
+const RL={};"Real Madrid:4-3-3:Courtois,Carvajal,Militão,Huijsen,Carreras,Valverde,Tchouaméni,Bellingham,Diomande,Mbappé,Vinícius Jr|Barcelona:4-3-3:Joan García,Koundé,Cubarsí,Araújo,Balde,Pedri,De Jong,Fermín,Lamine Yamal,Lewandowski,Raphinha|Man. City:4-3-3:Donnarumma,Matheus Nunes,Rúben Dias,Gvardiol,Aït-Nouri,Rodri,Reijnders,Bernardo Silva,Semenyo,Haaland,Doku|Arsenal:4-3-3:Raya,Timber,Saliba,Gabriel,Calafiori,Bruno Guimarães,Ødegaard,Rice,Saka,Gyökeres,Martinelli|Liverpool:4-2-3-1:Alisson,Frimpong,Van Dijk,Konaté,Kerkez,Gravenberch,Mac Allister,Salah,Szoboszlai,Wirtz,Ekitiké|Chelsea:4-2-3-1:R. Sánchez,Gusto,Chalobah,Colwill,Cucurella,Caicedo,Enzo Fernández,Estêvão,Palmer,Pedro Neto,João Pedro|Man. United:4-2-3-1:Lammens,Dalot,L. Martínez,Yoro,Shaw,Casemiro,Mainoo,Mbeumo,Bruno Fernandes,Cunha,Šeško|Bayern:4-2-3-1:Neuer,Stanišić,Upamecano,Tah,Davies,Kimmich,Goretzka,Olise,Musiala,Luis Díaz,Kane|PSG:4-3-3:Safonov,Hakimi,Marquinhos,Pacho,Nuno Mendes,Vitinha,Fabián Ruiz,João Neves,Doué,Dembélé,Kvaratskhelia|Inter:3-5-2:Josep Martínez,Pavard,Acerbi,Bastoni,Dumfries,Barella,Çalhanoğlu,Mkhitaryan,Dimarco,Lautaro,Thuram|Milan:3-5-2:Maignan,Tomori,Gabbia,Pavlović,Saelemaekers,Fofana,Modrić,Rabiot,Estupiñán,Leão,G. Ramos|Juventus:4-2-3-1:Di Gregorio,Kalulu,Bremer,Kelly,Cambiaso,Locatelli,Thuram,Conceição,Koopmeiners,Yıldız,David|Atlético Madrid:4-4-2:Oblak,Molina,Giménez,Le Normand,Ruggeri,G. Simeone,De Paul,Koke,Lookman,Griezmann,Sørloth|Sporting CP:3-4-3:Rui Silva,Debast,Inácio,Diomande,Fresneda,Hjulmand,Morita,Maxi Araújo,Quenda,L. Suárez,Trincão|SL Benfica:4-2-3-1:Trubin,Aursnes,A. Silva,Otamendi,Dedić,Barreiro,Ríos,Schjelderup,Aktürkoğlu,Prestianni,Pavlidis|FC Porto:4-3-3:Diogo Costa,Alberto Costa,Bednarek,Kiwior,Zaidu,Varela,Froholdt,Gabri Veiga,Borja Sainz,Samu,Pepê|Flamengo:4-2-3-1:Rossi,Varela,Léo Pereira,Danilo,Ayrton Lucas,Pulgar,Jorginho,Plata,Arrascaeta,Carrascal,Pedro|Napoli:4-1-4-1:Meret,Di Lorenzo,Rrahmani,Buongiorno,Spinazzola,Lobotka,Politano,McTominay,De Bruyne,Neres,Højlund|Portugal:4-3-3:Diogo Costa,Nélson Semedo,Rúben Dias,Inácio,Nuno Mendes,Vitinha,João Neves,Bruno Fernandes,Bernardo Silva,Cristiano Ronaldo,Rafael Leão|Brasil:4-2-3-1:Alisson,Vanderson,Marquinhos,G. Magalhães,Douglas Santos,Casemiro,B. Guimarães,Raphinha,Paquetá,Vinícius Jr,Matheus Cunha|Argentina:4-3-3:E. Martínez,Molina,Romero,L. Martínez,Tagliafico,De Paul,Enzo Fernández,Mac Allister,Messi,Lautaro Martínez,Julián Álvarez|França:4-3-3:Maignan,Koundé,Upamecano,Saliba,Théo Hernández,Tchouaméni,Rabiot,Camavinga,Dembélé,Mbappé,Olise|Inglaterra:4-2-3-1:Pickford,Reece James,Stones,Guéhi,Lewis-Skelly,Rice,Mainoo,Saka,Bellingham,Foden,Kane|Espanha:4-3-3:Unai Simón,Carvajal,Le Normand,Cubarsí,Cucurella,Rodri,Pedri,Fabián Ruiz,Lamine Yamal,Oyarzabal,Nico Williams|Alemanha:4-2-3-1:Baumann,Kimmich,Tah,Rüdiger,Raum,Pavlović,Goretzka,Sané,Musiala,Wirtz,Havertz|Países Baixos:4-3-3:Verbruggen,Dumfries,Van Dijk,De Vrij,Aké,Reijnders,De Jong,Schouten,Gakpo,Depay,Simons|Itália:3-5-2:Donnarumma,Mancini,Bastoni,Calafiori,Di Lorenzo,Barella,Tonali,Frattesi,Dimarco,Retegui,Kean|Marrocos:4-3-3:Bounou,Hakimi,Aguerd,Saïss,Mazraoui,Amrabat,Ounahi,El Aynaoui,Ziyech,En-Nesyri,Brahim Díaz|Sporting CP:4-3-3:Rui Silva,Vagiannidis,Inácio,Debast,Maxi Araújo,Morita,Hjulmand,Pedro Gonçalves,Quenda,Luis Suárez,Trincão|Inter:3-5-2:Sommer,Pavard,Acerbi,Bastoni,Dumfries,Barella,Çalhanoğlu,Mkhitaryan,Dimarco,Lautaro Martínez,Thuram|Milan:4-3-3:Maignan,Saelemaekers,Tomori,Gabbia,Estupiñán,Fofana,Modrić,Rabiot,Pulisic,Giménez,Leão|Dortmund:4-2-3-1:Kobel,Ryerson,Anton,Schlotterbeck,Bensebaini,Nmecha,Sabitzer,Beier,Brandt,Adeyemi,Guirassy|Tottenham:4-2-3-1:Vicario,Porro,Romero,Van de Ven,Udogie,Palhinha,Bentancur,Kudus,Xavi Simons,Johnson,Richarlison|Newcastle:4-3-3:Pope,Trippier,Schär,Botman,Burn,Tonali,Joelinton,Willock,Elanga,Woltemade,Barnes|Palmeiras:4-2-3-1:Weverton,Khellven,Gustavo Gómez,Murilo,Piquerez,Aníbal Moreno,Richard Ríos,Facundo Torres,Raphael Veiga,Maurício,Vitor Roque|Al-Nassr:4-2-3-1:Bento,Al-Ghannam,Simakan,Laporte,Boushal,Brozović,Kessié,Mané,João Félix,Coman,Cristiano Ronaldo|Inter Miami:4-3-3:Ustari,Weigandt,Aviles,Falcón,Jordi Alba,Redondo,Allen,De Paul,Messi,Luis Suárez,Segovia|Itália:4-3-3:Donnarumma,Di Lorenzo,Mancini,Bastoni,Dimarco,Barella,Tonali,Frattesi,Politano,Retegui,Kean|Bélgica:4-2-3-1:Courtois,Castagne,Faes,Theate,De Cuyper,Onana,Tielemans,Doku,De Bruyne,Trossard,Lukaku|Croácia:4-3-3:Livaković,Stanišić,Šutalo,Gvardiol,Sosa,Modrić,Kovačić,Sučić,Perišić,Kramarić,Baturina|Uruguai:4-3-3:Rochet,Varela,Giménez,Ronald Araújo,Olivera,Ugarte,Valverde,De la Cruz,Pellistri,Darwin Núñez,Maxi Araújo|Colômbia:4-2-3-1:Camilo Vargas,Daniel Muñoz,Dávinson Sánchez,Lucumí,Mojica,Richard Ríos,Lerma,Luis Díaz,James Rodríguez,Arias,Córdoba|México:4-3-3:Rangel,Jorge Sánchez,César Montes,Johan Vásquez,Gallardo,Edson Álvarez,Romo,Luis Chávez,Alexis Vega,Raúl Jiménez,Santiago Giménez|EUA:4-3-3:Matt Turner,Scally,Richards,Ream,Antonee Robinson,Tyler Adams,McKennie,Musah,Pulisic,Balogun,Weah|Japão:4-2-3-1:Zion Suzuki,Sugawara,Itakura,Tomiyasu,Ito,Endo,Morita,Kubo,Minamino,Mitoma,Ueda|Turquia:4-2-3-1:Çakır,Çelik,Demiral,Bardakcı,Kadıoğlu,Çalhanoğlu,Kökçü,Kenan Yıldız,Arda Güler,Barış Alper Yılmaz,Aktürkoğlu|Noruega:4-3-3:Nyland,Ryerson,Ajer,Østigård,Meling,Berge,Ødegaard,Aursnes,Nusa,Haaland,Sørloth|Suíça:4-2-3-1:Kobel,Widmer,Akanji,Elvedi,Ricardo Rodríguez,Xhaka,Freuler,Vargas,Ndoye,Rieder,Embolo|Dinamarca:4-3-3:Schmeichel,Kristensen,Andersen,Vestergaard,Maehle,Hjulmand,Højbjerg,Eriksen,Damsgaard,Højlund,Wind|Senegal:4-3-3:Édouard Mendy,Diatta,Koulibaly,Diallo,Jakobs,Gueye,Pape Sarr,Camara,Sadio Mané,Nicolas Jackson,Ismaïla Sarr|Egito:4-3-3:El Shenawy,Hamdy Fathy,Hany,Abdelmonem,Fatouh,Attia,Elneny,Zizo,Salah,Marmoush,Trézéguet|Nigéria:4-3-3:Nwabali,Aina,Troost-Ekong,Bassey,Sanusi,Ndidi,Iwobi,Onyeka,Lookman,Osimhen,Chukwueze|Coreia do Sul:4-2-3-1:Jo Hyeon-woo,Seol Young-woo,Kim Min-jae,Cho Yu-min,Lee Tae-seok,Hwang In-beom,Park Yong-woo,Lee Kang-in,Lee Jae-sung,Son Heung-min,Oh Hyeon-gyu|Canadá:4-3-3:St. Clair,Johnston,Cornelius,Bombito,Alphonso Davies,Eustáquio,Koné,Osorio,Buchanan,Jonathan David,Larin|Equador:4-3-3:Galíndez,Preciado,Hincapié,Pacho,Estupiñán,Caicedo,Alan Franco,Kendry Páez,Plata,Enner Valencia,Angulo|Escócia:4-3-3:Gunn,Ralston,Hendry,Hanley,Robertson,Gilmour,McTominay,McGinn,Christie,Adams,Dykes|Cabo Verde:4-3-3:Vozinha,Steven Moreira,Logan Costa,Diney,Joãozinho,Kevin Pina,Jamiro Monteiro,Telmo Arcanjo,Garry Rodrigues,Livramento,Ryan Mendes|Argélia:4-3-3:Oukidja,Atal,Bensebaini,Mandi,Aït-Nouri,Bennacer,Zerrouki,Boudaoui,Mahrez,Amoura,Gouiri".split("|").forEach(x=>{const[n,f,l]=x.split(":");RL[n]=[f,l.split(",")]});
+function rng(s){let h=7;for(const c of s)h=(h*31+c.charCodeAt(0))>>>0;return()=>(h=(h*1664525+1013904223)>>>0)/4294967296}
+function squad(t,mine,mins){const g=rng(t+S.y),r2=rng(t+S.y+"f"+S.step),nm=()=>FN[Math.floor(g()*FN.length)][0]+". "+LN[Math.floor(g()*LN.length)];
+ const R0=S.y<=2028?RL[t]:null,ks=Object.keys(FM),fk=R0?R0[0]:ks[Math.floor(r2()*ks.length)],sl=FM[fk].split(",");
+ const xi=sl.map((p,i)=>({p,n:R0?R0[1][i]:nm()})),bn=[0,1,2,3,4].map(()=>({n:nm()}));
+ if(mine){let i=-1;for(const c of PS[S.pos]){i=sl.indexOf(c);if(i>=0)break}if(i<0)i=sl.length-1;if(mins>=60)xi[i]={p:sl[i],n:S.name,me:1};else if(mins>0)bn[0]={n:S.name,me:1}}
+ return{xi,bn,fk,real:!!R0}}
+const xiH=q=>`${q.real?'<small class="m">📋 elenco real (aprox. 26/27)</small>':""}${q.xi.map(x=>`<div class="ev"><b style="width:34px;color:var(--m)">${x.p}</b><span class="${x.me?"g":""}">${esc(x.n)}</span></div>`).join("")}<p class="lg">Banco: ${q.bn.map(x=>esc(x.n)).join(", ")}</p>`;
+function natXI(){const q=squad(S.nat,false,0);return`<div class="card"><h3>ONZE DA SELEÇÃO · ${q.fk}</h3>${xiH(q)}</div>`}
+function lineup(res,ended){const{r,h,a,c,key}=res,E=ent(key);
+ const st=S.inj>0&&r.mins===0?"🤕 Estás lesionado e vês o jogo das bancadas.":r.mins===0?"🪑 Ficas no banco.":r.mins>=60?"✅ Estás no onze inicial!":"🔄 Começas no banco.";
+ const col=t=>{const q=squad(t,t===E,r.mins);return`<div style="flex:1;min-width:0"><div style="display:flex;gap:6px;align-items:center;font-weight:700;font-size:13px">${badge(t,22)}<span>${esc(t)}</span></div><small class="m" style="display:block;margin:2px 0 6px">${q.fk}${q.real?" · 📋 elenco real (aprox. 26/27)":""}</small>${q.xi.map(x=>`<div class="lg" style="${x.me?"color:var(--g);font-weight:700":""}"><b style="display:inline-block;width:28px;opacity:.7">${x.p}</b>${esc(x.n)}</div>`).join("")}<div class="lg" style="margin-top:6px;border-top:1px solid var(--b);padding-top:6px">Banco: ${q.bn.map(x=>x.me?`<span class="g">${esc(x.n)}</span>`:esc(x.n)).join(", ")}</div></div>`};
+ modal(`<h2>${esc(c)}</h2><p class="m" style="font-size:12px;margin-bottom:10px">Escalações</p><div style="display:flex;gap:12px">${col(h)}${col(a)}</div><p style="margin-top:12px">${st}</p><div class="row"><button class="btn pr" onclick="liveMatch(PM.res,PM.ended)">▶ Iniciar jogo</button></div>`)}
+function train(){const k=$("foc").value;if(S.energy<20||S.trained)return;
+ const g=ovr()>=S.pot?0:Math.random()<(S.at[k]>=85?.02:S.at[k]>=75?.06:.13)?1:0;S.at[k]+=g;S.energy-=15;S.trained=true;
+ log("🏋️","Treino concluído",g?`${k} +${g}.`:`${k} já no limite.`);saveCareer();renderGame()}
+function rest(){S.energy=Math.min(100,S.energy+30);S.trained=true;log("😴","Dia de descanso","Recuperaste energia.");saveCareer();renderGame()}
+function accept(i){const o=S.offers[i];S.club=o.club;S.wm=o.wm||1;log("✍️","Transferência!",`Assinaste pelo ${o.club}.`);
+ if(o.league!==S.league){S.league=o.league;S.teams=teamsOf(o.league);S.rep=Math.min(100,S.rep+3);S.q=false;setup(false)}S.offers=[];saveCareer();renderGame()}
+const lab=it=>it.t==="L"?`${S.league.split(" ")[0]} · J${it.r+1}`:it.t==="N"?"🌍 Datas FIFA":S.ko[it.key].name;
+function nextInfo(){
+  try{
+    if(!S || !S.cal || !S.cal.length || S.step >= S.cal.length){
+      return {c:"Temporada terminada — avance para a próxima", h:S?S.club:"?", a:"—"};
+    }
+    const it = S.cal[S.step];
+    if(!it) return {c:"A carregar próximo jogo...", h:S.club, a:"—"};
+    if(it.t==="L"){
+      const round = (S.rd && S.rd[it.r]) || [];
+      const p = round.find(x => x && (x[0]===S.club || x[1]===S.club));
+      if(p) return {c:lab(it), h:p[0], a:p[1]};
+      return {c:lab(it), h:S.club, a:"Adversário"};
+    }
+    if(it.t==="N") return {c:"Datas FIFA — podes ser convocado", h:S.nat, a:"?"};
+    const E = ent(it.key);
+    const kk = S.ko && S.ko[it.key];
+    if(!kk) return {c:lab(it), h:E, a:"—"};
+    if(!kk.alive.includes(E) || (it.key==="tor" && S.called===false))
+      return {c:lab(it)+" (a decorrer sem ti)", h:E, a:"—"};
+    return {c:`${kk.name} · ${KN(kk.alive.length)}`, h:E, a:"adversário sorteado"};
+  }catch(e){
+    console.error("nextInfo", e);
+    return {c:"Próximo jogo", h:(S&&S.club)||"?", a:"—"};
+  }
+}
+function koView(key){const kk=S.ko[key];if(!kk)return`<div class="card"><p class="m">${key==="con"?"O teu clube não está qualificado para a competição continental esta época. Termina nos lugares europeus (verdes) na tabela.":"Não há torneio este ano."}</p></div>`;
+ const E=ent(key);return`<div class="card"><h3>${kk.name}</h3>${kk.alive.length>1?`<p class="m">${kk.alive.length} equipas em prova</p>`:`<p>Campeão: <b>${kk.alive[0]}</b></p>`}
+ <p class="${kk.alive.includes(E)?"g":"rd"}">${kk.res||(kk.alive.includes(E)?"Ainda por começar":"Eliminado")}</p>
+ ${kk.log.slice().reverse().map(c=>`<h3 style="margin-top:14px">${c.n}</h3>${c.out.map(x=>`<div class="lg">${esc(x)}</div>`).join("")}`).join("")}</div>`}
+
+/* ===================== CREATE PLAYER ===================== */
+let W={};
+const PI={"Extremo":["🏃","Velocidade e dribles"],"Ponta de lança":["🎯","Faro de golo"],"Médio ofensivo":["🎩","Cria jogadas"],"Médio centro":["⚙️","Motor do meio-campo"],"Defesa":["🛡️","Muralha defensiva"],"Guarda-redes":["🧤","Último reduto"]};
+const TR={"Velocista":["⚡","+Ritmo +Drible",{Ritmo:4,Drible:3}],"Cérebro":["🧠","+Passe +Remate",{Passe:4,Remate:2}],"Guerreiro":["💪","+Físico +Defesa",{Físico:4,Defesa:3}],"Finalizador":["🎯","+Remate +Físico",{Remate:4,Físico:2}]};
+const TA={"Vim para ganhar títulos":["🏆","+4 reputação",{rep:4}],"Vou trabalhar em silêncio":["🤫","+3 potencial",{pot:3}],"Sou fã deste clube desde criança":["💚","+2 reputação, +1 potencial",{rep:2,pot:1}]};
+function startCreate(){W={st:0,name:"",pos:"Extremo",nat:"Portugal",l:"",club:"",tr:"",ta:"",num:R(7,30)};wiz()}
+function wset(k,v){const e=$("wn");if(e)W.name=e.value;W[k]=v;wiz()}
+function wiz(){const st=W.st,T=["Quem és tu?","De onde vens?","Onde vais jogar?","O teu estilo","Primeiro dia no clube"],ls=Object.keys(LG);if(!W.l)W.l=ls[0];let b="";
+ if(st===0)b=`<label>Nome</label><input id="wn" maxlength="24" placeholder="Ex.: Alex Silva" value="${esc(W.name)}"><label>Posição</label><div class="pg">${Object.keys(POS).map(p=>`<div class="pc ${W.pos===p?"on":""}" onclick="wset('pos','${p}')"><span>${PI[p][0]}</span><b>${p}</b><small class="m">${PI[p][1]}</small></div>`).join("")}</div>`;
+ if(st===1)b=`<p class="m" style="margin-bottom:10px">Escolhe a Seleção que vais representar.</p><div class="pg n3">${Object.keys(NT).map(n=>`<div class="pc sm ${W.nat===n?"on":""}" onclick="wset('nat','${n}')"><span>${NT[n].f}</span><small>${n}</small></div>`).join("")}</div>`;
+ if(st===2)b=`<div class="sub" style="flex-wrap:wrap">${ls.map(l=>`<button class="sp ${W.l===l?"on":""}" onclick="W.club='';wset('l','${l}')">${l}</button>`).join("")}</div><div style="margin-top:10px">${Object.entries(teamsOf(W.l)).sort((x,y)=>y[1]-x[1]).map(([n,r])=>`<div class="offer" style="cursor:pointer;${W.club===n?"outline:2px solid var(--g)":""}" onclick="wset('club','${n}')"><div class="t">${badge(n,34)}<div><b>${n}</b><br><small class="m">Força ${r} · ${r>=80?"Muito difícil ter minutos":r>=72?"Competitivo":"Boas hipóteses de jogar"}</small></div></div></div>`).join("")}</div>`;
+ if(st===3)b=`<p class="m" style="margin-bottom:10px">Como é que ${esc(W.name)} joga?</p><div class="pg">${Object.entries(TR).map(([k,v])=>`<div class="pc ${W.tr===k?"on":""}" onclick="wset('tr','${k}')"><span>${v[0]}</span><b>${k}</b><small class="m">${v[1]}</small></div>`).join("")}</div>`;
+ if(st===4){const k=kc(W.club);b=`<div style="text-align:center"><svg width="120" height="110" viewBox="0 0 120 110"><path d="M35 8l-28 16 10 22 14-7v57h58V39l14 7 10-22L85 8c-4 8-14 12-25 12S39 16 35 8z" fill="${k[0]}" stroke="${k[1]}" stroke-width="3"/><text x="60" y="62" text-anchor="middle" font-size="26" font-weight="800" fill="${lum(k[0])>150?"#111":"#fff"}">${W.num}</text></svg><p><b>${esc(W.name)}</b> · ${W.pos}</p></div><div class="card" style="margin:10px 0">🧑‍💼 <b>Treinador do ${W.club}:</b><br>“Bem-vindo, ${esc(W.name)}! Antes do primeiro treino… o que dizes ao grupo?”</div>${Object.entries(TA).map(([k2,v])=>`<div class="offer" style="cursor:pointer;${W.ta===k2?"outline:2px solid var(--g)":""}" onclick="wset('ta','${k2}')">${v[0]} <b>${k2}</b><br><small class="m">${v[1]}</small></div>`).join("")}`}
+ $("app-root").innerHTML=`<div class="app" style="padding-top:28px"><div class="card" style="max-width:520px;margin:0 auto"><small class="m">Passo ${st+1} de 5</small><div class="bar"><i style="width:${(st+1)*20}%"></i></div><h2 style="margin:12px 0">${T[st]}</h2>${b}<div class="row">${st?`<button class="btn" onclick="W.st--;wiz()">Voltar</button>`:`<button class="btn" onclick="logout()">Sair da conta</button>`}<button class="btn pr" onclick="wnext()">${st===4?"Assinar contrato ✍️":"Continuar"}</button></div></div></div>`;window.scrollTo(0,0)}
+function wnext(){const e=$("wn");
+ if(W.st===0){W.name=e.value.trim();if(!W.name){e.focus();return}}
+ if(W.st===2&&!W.club)return alert("Escolhe um clube.");
+ if(W.st===3&&!W.tr)return alert("Escolhe o teu estilo.");
+ if(W.st===4&&!W.ta)return alert("Responde ao treinador.");
+ if(W.st<4){W.st++;wiz();return}
+ newCareer(W.name,W.pos,W.nat,W.l,W.club);
+ const t=TR[W.tr][2],a=TA[W.ta][2];for(const k in t)if(S.at[k]!==undefined)S.at[k]=C(S.at[k]+t[k],25,99);
+ S.rep=C(S.rep+(a.rep||0),0,100);S.pot=Math.min(99,S.pot+(a.pot||0));
+ log("🤝","Primeira conversa",`Disseste ao grupo: "${W.ta}".`);saveCareer();tab="home";renderGame();
+ modal(`<h2>✍️ Contrato assinado!</h2><div style="display:flex;gap:12px;align-items:center;margin:10px 0">${badge(S.club,50)}<div><b>${esc(S.name)}</b> é agora jogador do <b>${S.club}</b>.<br><span class="m">Camisola ${W.num} · ${S.age} anos · Geral ${ovr()}</span></div></div><p class="m">Treina, joga e ganha a confiança do treinador. Quando a época acabar, a próxima começa sozinha.</p><button class="btn pr" style="width:100%" onclick="closeM()">Entrar em campo</button>`)}
+
+/* ===================== RENDER GAME ===================== */
+function renderGame(){
+  if(!S){startCreate();return}
+  applyTheme();
+  $("app-root").innerHTML = `
+  <div class="app">
+    <div class="user-bar">
+      <span>Conta: <b>${esc(currentUser)}</b></span>
+      <span style="cursor:pointer;color:var(--m)" onclick="logout()">Sair</span>
+    </div>
+    <div class="top" id="top"></div>
+    <div id="view"></div>
+  </div>
+  <nav id="nav"></nav>
+  <div class="bd" id="bd"><div class="md" id="md"></div></div>`;
+
+  const bar=v=>`<div class="bar"><i style="width:${v}%"></i></div>`;
+  $("top").innerHTML=`${badge(S.club,34)}<div class="gr"><h1>${S.club}</h1><small class="m">${S.league}</small></div><div class="pill">${yl(S.y)} · ${S.age} anos</div>`;
+  const N=[["home","🏠","Início"],["comp","🏆","Competições"],["nat","🌍","Seleção"],["career","📈","Carreira"],["market","🤝","Mercado"],["squad","👥","Elenco"],["world","🌎","Mundo"],["news","📰","Notícias"]];
+  $("nav").innerHTML=N.map(([k,i,l])=>`<button class="${tab===k?"on":""}" onclick="tab='${k}';renderGame()"><span>${i}</span>${l}${k==="market"&&S.offers.length?`<i>${S.offers.length}</i>`:""}</button>`).join("");
+
+  let h="";
+  if(tab==="home"){
+  let n={c:"A carregar...",h:S.club,a:"—"};
+  try{ n = nextInfo(); }catch(e){ console.error(e); }
+  const s=S.ss||{m:0,g:0,a:0,rs:0,rn:0};
+  const att=Object.entries(S.at||{}).map(([k,v])=>`<div class="at"><div><span>${k}</span><span class="g">${v}</span></div>${bar(v)}</div>`).join("");
+  let up=[];
+  try{ up=(S.cal||[]).slice(S.step+1,S.step+5).map(lab); }catch(e){}
+
+  h=`<div class="card" style="background:linear-gradient(90deg,${kc(S.club)[0]} 50%,${kc(S.club)[1]} 50%) top/100% 5px no-repeat,rgba(24,33,27,.95)"><div class="hero"><div style="font-size:42px">🧑</div><div><h2>${esc(S.name)}</h2><span class="m">${S.pos} · ${NT[S.nat].f} ${S.nat}</span></div><div class="ovr"><small class="m">GERAL</small><b>${ovr()}</b></div></div></div>
+  <div class="grid"><div class="st"><small class="m">Jogos</small><b>${s.m}</b></div><div class="st"><small class="m">Golos</small><b>${s.g}</b></div><div class="st"><small class="m">Assist.</small><b>${s.a}</b></div><div class="st"><small class="m">Valor</small><b>€${val()}M</b></div></div>
+  <div class="card"><h3>PRÓXIMO JOGO</h3><div class="match"><div>${badge(n.h,44)}${n.h}</div><span class="m">VS</span><div>${NT[n.a]||ALL[n.a]?badge(n.a,44):"❔"}${n.a}</div></div>
+  <p class="m" style="text-align:center;font-size:12px">${n.c}${S.inj?` · 🤕 lesionado (${S.inj})`:""}</p>
+  <div class="at"><div><span>Energia</span><span>${S.energy}%</span></div>${bar(S.energy)}</div>
+  <div class="row"><button class="btn pr" onclick="playNext()">▶ Avançar / Jogar</button></div>
+  <div class="row"><select id="foc" style="margin:0">${Object.keys(S.at).map(k=>`<option value="${k}">${k}</option>`).join("")}</select><button class="btn" onclick="train()" ${S.trained||S.energy<20?"disabled":""}>🏋️ Treinar</button><button class="btn" onclick="rest()" ${S.trained?"disabled":""}>😴 Descansar</button></div>
+  ${up.length?`<p class="lg">A seguir: ${up.join(" → ")}</p>`:""}</div>
+  <div class="card"><h3>ATRIBUTOS</h3>${att}</div>
+  <div class="card"><h3>CENTRO DE CARREIRA</h3>${S.log.slice(0,6).map(e=>`<div class="ev"><div>${e.i}</div><div>${e.t}<small>${e.d}</small></div></div>`).join("")}</div>`}
+  if(tab==="comp"){const P=[["liga","Liga"],["cup","Taça"],["con",S.ko.con?S.ko.con.name:"Continental"]];
+  h=`<div class="sub">${P.map(([k,l])=>`<button class="sp ${sub===k?"on":""}" onclick="sub='${k}';renderGame()">${l}</button>`).join("")}</div>`;
+  if(sub==="liga"){const t=Object.entries(S.tb).sort((a,b)=>sortT(b,a)),L=LG[S.league];
+   h+=`<div class="card"><h3>${S.league}</h3><table><tr><th>#</th><th>Clube</th><th>J</th><th>V</th><th>E</th><th>D</th><th>DG</th><th>Pts</th></tr>${t.map(([n,x],i)=>`<tr class="${n===S.club?"me":""} ${i<L.eu?"eu":L.rel&&i>=t.length-L.rel?"rel":""}"><td>${i+1}</td><td><div class="t">${badge(n,22)}${n}</div></td><td>${x.p}</td><td>${x.w}</td><td>${x.d}</td><td>${x.l}</td><td>${x.f-x.a}</td><td><b>${x.w*3+x.d}</b></td></tr>`).join("")}</table><p class="m" style="font-size:12px"><span class="g">▌</span> ${CF[L.cf]} (top ${L.eu}) ${L.rel?`· <span class="rd">▌</span> Descida (${L.rel})`:"· sem descidas"}</p></div>`}
+  else h+=koView(sub)}
+  if(tab==="nat"){const t=S.nt;h=`<div class="card"><div class="hero"><div style="font-size:48px">${NT[S.nat].f}</div><div><h2>${S.nat}</h2><span class="m">Força da seleção: ${NT[S.nat].r}</span></div></div></div>
+  <div class="grid"><div class="st"><small class="m">Internac.</small><b>${t.m}</b></div><div class="st"><small class="m">Golos</small><b>${t.g}</b></div><div class="st"><small class="m">Assist.</small><b>${t.a}</b></div><div class="st"><small class="m">Convocatória</small><b>${Math.round(C(callP(),0,.95)*100)}%</b></div></div>
+  <div class="card"><h3>PRÓXIMO GRANDE TORNEIO</h3><p>${S.tor?`${S.tor} — no fim desta época!`:"Não há grande torneio no fim desta época."}</p><p class="m" style="font-size:12px">Joga bem no clube, sobe o overall e a reputação para seres convocado. Há duas datas FIFA por época.</p></div>${S.ko.tor?koView("tor"):""}${natXI()}`}
+  if(tab==="career"){h=`<div class="card"><h3>TOTAIS</h3><div class="grid"><div class="st"><small class="m">Jogos</small><b>${S.tot.m}</b></div><div class="st"><small class="m">Golos</small><b>${S.tot.g}</b></div><div class="st"><small class="m">Assist.</small><b>${S.tot.a}</b></div><div class="st"><small class="m">Reputação</small><b>${Math.round(S.rep)}</b></div></div></div>
+  <div class="card"><h3>FINANÇAS</h3><div class="grid"><div class="st"><small class="m">Salário/ano</small><b>€${wage()}M</b></div><div class="st"><small class="m">Patrimônio</small><b>€${(S.money||0).toFixed(1)}M</b></div></div></div><div class="card"><h3>TROFÉUS</h3>${(S.tro||[]).length?S.tro.slice().reverse().map(x=>`<div class="ev">🏆 ${esc(x.t)}<small>${x.y}</small></div>`).join(""):`<p class="m">Ainda sem troféus.</p>`}</div><div class="card"><h3>ÉPOCAS</h3>${S.hist.length?`<table><tr><th>Época</th><th>Clube</th><th>Pos</th><th>J</th><th>G</th><th>A</th><th>Nota</th></tr>${S.hist.map(x=>`<tr><td>${x.y}</td><td><div class="t">${badge(x.club,20)}${x.club}</div></td><td>${x.pos}.º</td><td>${x.m}</td><td>${x.g}</td><td>${x.a}</td><td>${x.rt}</td></tr>`).join("")}</table>`:`<p class="m">Termina a primeira época para ver o histórico.</p>`}</div>
+  <div class="card"><h3>CONQUISTAS</h3>${S.ach.length?S.ach.map(a=>`<div class="ev">🏅 ${({ht:"Hat-trick",deb:"Estreia oficial",g1:"Primeiro golo",cap:"Estreia pela Seleção",ng:"Golo pela Seleção",conv:"Primeira convocatória",g10:"10 golos",g50:"50 golos",g100:"100 golos"})[a]||a}</div>`).join(""):`<p class="m">Ainda sem conquistas.</p>`}</div>
+  <button class="btn" onclick="if(confirm('Apagar a carreira desta conta?'))resetC()">Nova carreira</button>`}
+  if(tab==="world"){const P=[["sel","Seleções"],["clu","Clubes"],["cal","Torneios"]];
+  h=`<div class="sub">${P.map(([k,l])=>`<button class="sp ${ws===k?"on":""}" onclick="ws='${k}';renderGame()">${l}</button>`).join("")}</div>`;
+  const rk=(t,f)=>`<div class="card"><table>${t.map(([n,r],i)=>`<tr class="${n===S.nat||n===S.club?"me":""}"><td>${i+1}</td><td><div class="t">${badge(n,22)}${n}</div></td><td>${r}</td></tr>`).join("")}</table></div>`;
+  if(ws==="sel")h+=rk(Object.entries(NT).map(([n,x])=>[n,x.r]).sort((a,b)=>b[1]-a[1]).slice(0,20));
+  if(ws==="clu")h+=rk(Object.entries(ALL).sort((a,b)=>b[1]-a[1]).slice(0,25));
+  if(ws==="cal")h+=`<div class="card"><h3>GRANDES TORNEIOS DE SELEÇÕES</h3>${[1,2,3,4,5,6,7].map(i=>{const y=S.y+i,m=tn(y,CN[S.nat]);return`<div class="ev"><b style="width:44px">${y}</b><span class="${m?"g":"m"}">${m||"Sem torneio para a sua seleção"}</span></div>`}).join("")}<p class="lg">Copa do Mundo a cada 4 anos, Eurocopa e Copa América nos anos pares, Liga das Nações e torneios continentais nos anos ímpares, mais duas datas FIFA por temporada.</p></div>`}
+  if(tab==="squad"){const q=squad(S.club,true,90);h=`<div class="card"><h3>ELENCO · ${q.fk}</h3>${xiH(q)}</div>`}
+  if(tab==="news"){h=`<div class="card"><h3>NOTÍCIAS</h3>${S.log.map(e=>`<div class="ev"><div>${e.i}</div><div>${e.t}<small>${e.d}</small></div></div>`).join("")}</div>`}
+  if(tab==="market"){h=`<div class="card"><h3>PROPOSTAS</h3>${S.offers.length?S.offers.map((o,i)=>`<div class="offer"><div class="t">${badge(o.club,38)}<div><b>${o.club}</b><br><span class="m">${o.league} · força ${ALL[o.club]}</span>${ALL[o.club]>=80?' <span class="g">⭐ Gigante</span>':''}<br><small class="m">💰 €${+(Math.max(.03,+val()*.14)*(o.wm||1)).toFixed(2)}M/ano</small></div></div><div class="row"><button class="btn pr" onclick="accept(${i})">Aceitar</button><button class="btn" onclick="S.offers.splice(${i},1);saveCareer();renderGame()">Recusar</button></div></div>`).join(""):`<p class="m">Sem propostas. Surgem ao longo da época, conforme o teu desempenho.</p>`}<p class="m" style="font-size:12px">Valor de mercado: €${val()}M · Potencial: ${S.pot}</p></div>`}
+
+  $("view").innerHTML=h;
+  saveCareer();
+}
+
+/* ===================== CONFIG / IDIOMA / MÚSICA ===================== */
+let cfg={lang:"pt",music:true,vol:.5,speed:700,lineup:true,theme:"#b8f34a",narr:"pt"};
+try{Object.assign(cfg,JSON.parse(localStorage.getItem("pc_cfg")||"{}"))}catch(e){}
+const saveCfg=()=>{try{localStorage.setItem("pc_cfg",JSON.stringify(cfg))}catch(e){}};
+const DICT=`=Início|Home|Inicio
+=Mundo|World|Mundo
+=Seleções|National teams|Selecciones
+=Clubes|Clubs|Clubes
+=Torneios|Tournaments|Torneos
+=GRANDES TORNEIOS DE SELEÇÕES|MAJOR NATIONAL TEAM TOURNAMENTS|GRANDES TORNEOS DE SELECCIONES
+Sem torneio para a sua seleção|No tournament for your national team|Sin torneo para tu selección
+Liga das Nações|Nations League|Liga de Naciones
+=Competições|Competitions|Competiciones
+=Seleção|National team|Selección
+=Carreira|Career|Carrera
+=Mercado|Market|Mercado
+=Liga|League|Liga
+=Taça|Cup|Copa
+=Clube|Club|Club
+=J|P|PJ
+=V|W|G
+=E|D|E
+=D|L|P
+=Jogos|Games|Partidos
+=Golos|Goals|Goles
+=Assist.|Assists|Asist.
+=Valor|Value|Valor
+=Energia|Energy|Energía
+=Internac.|Caps|Inter.
+=Convocatória|Call-up|Convocatoria
+=Reputação|Reputation|Reputación
+=Época|Season|Temporada
+=Nota|Rating|Nota
+=GERAL|OVERALL|GENERAL
+=Voltar|Back|Volver
+=Entrar|Log in|Entrar
+=Criar|Create|Crear
+=Criar Conta|Create account|Crear cuenta
+=Usuário|Username|Usuario
+=Senha|Password|Contraseña
+=Confirmar Senha|Confirm password|Confirmar contraseña
+=Nome|Name|Nombre
+=Posição|Position|Posición
+=Sair|Log out|Salir
+=Sair da conta|Log out|Cerrar sesión
+=Continuar|Continue|Continuar
+=Saltar|Skip|Saltar
+=Aceitar|Accept|Aceptar
+=Recusar|Decline|Rechazar
+=Sim|Yes|Sí
+=Não|No|No
+=Fechar|Close|Cerrar
+Modo Carreira de Jogador|Player Career Mode|Modo Carrera de Jugador
+Seu usuário|Your username|Tu usuario
+Escolha um usuário|Choose a username|Elige un usuario
+Mínimo 4 caracteres|At least 4 characters|Mínimo 4 caracteres
+Repita a senha|Repeat password|Repite la contraseña
+Conta:|Account:|Cuenta:
+PRÓXIMO GRANDE TORNEIO|NEXT MAJOR TOURNAMENT|PRÓXIMO GRAN TORNEO
+PRÓXIMO JOGO|NEXT MATCH|PRÓXIMO PARTIDO
+▶ Avançar / Jogar|▶ Advance / Play|▶ Avanzar / Jugar
+Treinar|Train|Entrenar
+Descansar|Rest|Descansar
+lesionado|injured|lesionado
+A seguir:|Next:|Siguiente:
+ATRIBUTOS|ATTRIBUTES|ATRIBUTOS
+CENTRO DE CARREIRA|CAREER CENTRE|CENTRO DE CARRERA
+TOTAIS|TOTALS|TOTALES
+ÉPOCAS|SEASONS|TEMPORADAS
+CONQUISTAS|ACHIEVEMENTS|LOGROS
+PROPOSTAS|OFFERS|OFERTAS
+Termina a primeira época para ver o histórico.|Finish your first season to see your history.|Termina tu primera temporada para ver el historial.
+Ainda sem conquistas.|No achievements yet.|Aún sin logros.
+Nova carreira|New career|Nueva carrera
+Sem propostas. Surgem ao longo da época, conforme o teu desempenho.|No offers yet. They arrive during the season based on your form.|Sin ofertas. Llegan durante la temporada según tu rendimiento.
+Valor de mercado:|Market value:|Valor de mercado:
+Potencial:|Potential:|Potencial:
+potencial|potential|potencial
+reputação|reputation|reputación
+Força da seleção:|National team strength:|Fuerza de la selección:
+força|strength|fuerza
+Força|Strength|Fuerza
+⭐ Gigante|⭐ Giant club|⭐ Gigante
+— no fim desta época!|— at the end of this season!|— ¡al final de esta temporada!
+Não há grande torneio no fim desta época.|No major tournament at the end of this season.|No hay gran torneo al final de esta temporada.
+Joga bem no clube, sobe o overall e a reputação para seres convocado. Há duas datas FIFA por época.|Play well for your club and raise your overall and reputation to get called up. There are two FIFA dates per season.|Juega bien en tu club y sube tu general y reputación para ser convocado. Hay dos fechas FIFA por temporada.
+sem descidas|no relegation|sin descensos
+Descida|Relegation|Descenso
+Liga dos Campeões|Champions League|Liga de Campeones
+Jornada|Matchday|Jornada
+Seleção · Jogo oficial|National team · Official match|Selección · Partido oficial
+Datas FIFA — podes ser convocado|FIFA dates — you may be called up|Fechas FIFA — puedes ser convocado
+Eliminatória|Knockout round|Eliminatoria
+Meias-finais|Semi-finals|Semifinales
+Quartos|Quarter-finals|Cuartos
+Oitavos|Round of 16|Octavos
+Escalações antes do jogo|Line-ups before the match|Alineaciones antes del partido
+Escalações|Line-ups|Alineaciones
+Iniciar jogo|Start match|Iniciar partido
+Estás no onze inicial!|You're in the starting XI!|¡Estás en el once inicial!
+Começas no banco.|You start on the bench.|Empiezas en el banco.
+Ficas no banco.|You stay on the bench.|Te quedas en el banco.
+Estás lesionado e vês o jogo das bancadas.|You're injured and watch from the stands.|Estás lesionado y ves el partido desde la grada.
+Foste titular.|You started.|Fuiste titular.
+Entraste do banco.|You came off the bench.|Entraste desde el banco.
+Não saíste do banco.|You didn't leave the bench.|No saliste del banco.
+Banco:|Bench:|Banquillo:
+elenco real (aprox. 26/27)|real squad (approx. 26/27)|plantilla real (aprox. 26/27)
+Assistência tua! Golo de|Your assist! Goal for|¡Asistencia tuya! Gol de
+GOLO de|GOAL by|GOL de
+Golo de|Goal for|Gol de
+Tiveste uma boa oportunidade, mas a bola saiu ao lado.|You had a good chance, but the ball went wide.|Tuviste una buena ocasión, pero el balón salió desviado.
+Desempate por penáltis: vence|Penalty shoot-out: winner|Tanda de penaltis: gana
+Sem minutos neste jogo|No minutes this game|Sin minutos en este partido
+assistências|assists|asistencias
+golos|goals|goles
+Fim da época|End of season|Fin de temporada
+terminou em|finished|terminó en
+Campeão:|Champion:|Campeón:
+Campeão|Champion|Campeón
+CAMPEÃO|CHAMPION|CAMPEÓN
+nota média|average rating|nota media
+anos e overall|years old, overall|años y general
+aos 17 anos.|at 17 years old.|a los 17 años.
+anos|years|años
+Agora tens|You are now|Ahora tienes
+Há propostas no Mercado.|There are offers in the Market.|Hay ofertas en el Mercado.
+Começar Nova Temporada|Start New Season|Empezar nueva temporada
+Aposentar-me|Retire|Retirarme
+Qualificado para a competição continental|Qualified for continental competition|Clasificado a competición continental
+Zona de descida|Relegation zone|Zona de descenso
+Meio da tabela|Mid-table|Mitad de tabla
+Não participaste|Did not take part|No participaste
+Passou os|Passed the|Pasó los
+Eliminado|Eliminated|Eliminado
+A carregar...|Loading...|Cargando...
+Ponta de lança|Striker|Delantero centro
+Médio ofensivo|Attacking midfielder|Mediapunta
+Médio centro|Central midfielder|Mediocentro
+Guarda-redes|Goalkeeper|Portero
+Extremo|Winger|Extremo
+Ritmo|Pace|Ritmo
+Drible|Dribbling|Regate
+Remate|Shooting|Remate
+Passe|Passing|Pase
+Físico|Physical|Físico
+Defesa|Defence|Defensa
+Hat-trick|Hat-trick|Triplete
+Estreia oficial|Official debut|Debut oficial
+Primeiro golo|First goal|Primer gol
+Estreia pela Seleção|National team debut|Debut con la selección
+Golo pela Seleção|National team goal|Gol con la selección
+Primeira convocatória|First call-up|Primera convocatoria
+Quem és tu?|Who are you?|¿Quién eres?
+De onde vens?|Where are you from?|¿De dónde vienes?
+Onde vais jogar?|Where will you play?|¿Dónde vas a jugar?
+O teu estilo|Your style|Tu estilo
+Primeiro dia no clube|First day at the club|Primer día en el club
+Passo |Step |Paso 
+ de 5| of 5| de 5
+Assinar contrato|Sign contract|Firmar contrato
+Escolhe a Seleção que vais representar.|Choose the national team you will represent.|Elige la selección que vas a representar.
+Como é que |How does |¿Cómo juega 
+ joga?| play?|?
+Muito difícil ter minutos|Hard to get minutes|Difícil tener minutos
+Competitivo|Competitive|Competitivo
+Boas hipóteses de jogar|Good chance of playing|Buenas opciones de jugar
+Velocista|Sprinter|Velocista
+Cérebro|Playmaker|Cerebro
+Guerreiro|Warrior|Guerrero
+Finalizador|Finisher|Finalizador
+Treinador do|Coach of|Entrenador del
+Bem-vindo, |Welcome, |¡Bienvenido, 
+! Antes do primeiro treino… o que dizes ao grupo?|! Before the first training session… what do you say to the group?|! Antes del primer entrenamiento… ¿qué le dices al grupo?
+Vim para ganhar títulos|I'm here to win titles|Vine a ganar títulos
+Vou trabalhar em silêncio|I'll work in silence|Trabajaré en silencio
+Sou fã deste clube desde criança|I've supported this club since childhood|Soy hincha de este club desde niño
+Contrato assinado!|Contract signed!|¡Contrato firmado!
+é agora jogador do|is now a player of|es ahora jugador del
+Camisola|Shirt|Camiseta
+Geral|Overall|General
+Treina, joga e ganha a confiança do treinador. Quando a época acabar, a próxima começa sozinha.|Train, play and earn the coach's trust. When the season ends, the next one starts by itself.|Entrena, juega y gánate la confianza del entrenador. Al acabar la temporada, la siguiente empieza sola.
+Entrar em campo|Step onto the pitch|Salir al campo
+A tua carreira começou!|Your career has begun!|¡Tu carrera ha comenzado!
+Assinaste pelo|You signed for|Firmaste por
+Primeira conversa|First talk|Primera charla
+Disseste ao grupo:|You told the group:|Le dijiste al grupo:
+Novas propostas no Mercado!|New offers in the Market!|¡Nuevas ofertas en el Mercado!
+têm interesse em ti.|are interested in you.|están interesados en ti.
+Treino concluído|Training complete|Entrenamiento completado
+Dia de descanso|Rest day|Día de descanso
+Recuperaste energia.|You recovered energy.|Recuperaste energía.
+Lesão!|Injury!|¡Lesión!
+Vais falhar|You will miss|Te perderás
+Transferência!|Transfer!|¡Traspaso!
+Conquista:|Achievement:|Logro:
+Nova época|New season|Nueva temporada
+Convocado para o|Called up for|Convocado para el
+Não foste convocado|Not called up|No fuiste convocado
+Configurações|Settings|Ajustes
+Idioma|Language|Idioma
+Música|Music|Música
+Ligada|On|Activada
+Desligada|Off|Desactivada
+Próxima|Next|Siguiente
+Volume|Volume|Volumen
+Velocidade dos jogos|Match speed|Velocidad de los partidos
+Lento|Slow|Lento
+Rápido|Fast|Rápido
+FINANÇAS|FINANCES|FINANZAS
+TROFÉUS|TROPHIES|TROFEOS
+Ainda sem troféus.|No trophies yet.|Aún sin trofeos.
+Salário/ano|Salary/year|Salario/año
+Patrimônio|Net worth|Patrimonio
+M/ano|M/year|M/año
+Bola de Ouro!|Ballon d'Or!|¡Balón de Oro!
+Bola de Ouro|Ballon d'Or|Balón de Oro
+És o melhor jogador do mundo.|You are the best player in the world.|Eres el mejor jugador del mundo.
+Cor do tema|Theme colour|Color del tema
+Narração|Commentary|Narración
+=Elenco|Squad|Plantilla
+=Notícias|News|Noticias
+ELENCO|SQUAD|PLANTILLA
+NOTÍCIAS|NEWS|NOTICIAS
+ONZE DA SELEÇÃO|NATIONAL TEAM XI|ONCE DE LA SELECCIÓN
+Copa do Mundo|World Cup|Mundial
+Eurocopa|European Championship|Eurocopa
+Copa Ouro|Gold Cup|Copa Oro
+Copa da Ásia|Asian Cup|Copa Asiática
+Copa Africana de Nações|Africa Cup of Nations|Copa Africana de Naciones`;
+const BRD=`=Golos|Gols
+=Época|Temporada
+=Taça|Copa
+=Convocatória|Convocação
+Remate|Finalização
+golos|gols
+Golo de|Gol de
+GOLO de|GOL de
+Assistência tua! Golo de|Assistência sua! Gol de
+Primeiro golo|Primeiro gol
+Golo pela Seleção|Gol pela Seleção
+Guarda-redes|Goleiro
+Ponta de lança|Centroavante
+Médio ofensivo|Meia ofensivo
+Médio centro|Volante
+Extremo|Ponta
+sem descidas|sem rebaixamento
+Zona de descida|Zona de rebaixamento
+Descida|Rebaixamento
+Jornada|Rodada
+Meias-finais|Semifinais
+Quartos|Quartas de final
+Oitavos|Oitavas de final
+Eliminatória|Mata-mata
+Desempate por penáltis: vence|Disputa de pênaltis: vence
+Treinador do|Técnico do
+Convocado para o|Convocado para a
+Não foste convocado|Você não foi convocado
+Foste titular.|Você foi titular.
+Entraste do banco.|Você entrou do banco.
+Não saíste do banco.|Você não saiu do banco.
+Estás lesionado e vês o jogo das bancadas.|Você está lesionado e vê o jogo da arquibancada.
+Estás no onze inicial!|Você está no time titular!
+Começas no banco.|Você começa no banco.
+Ficas no banco.|Você fica no banco.
+Tiveste uma boa oportunidade, mas a bola saiu ao lado.|Você teve uma boa chance, mas a bola saiu pela linha de fundo.
+Agora tens|Agora você tem
+Joga bem no clube, sobe o overall e a reputação para seres convocado. Há duas datas FIFA por época.|Jogue bem no clube e suba o overall e a reputação para ser convocado. Há duas datas FIFA por temporada.
+Sem propostas. Surgem ao longo da época, conforme o teu desempenho.|Sem propostas. Elas surgem ao longo da temporada, conforme o seu desempenho.
+Termina a primeira época para ver o histórico.|Termine a primeira temporada para ver o histórico.
+Quem és tu?|Quem é você?
+De onde vens?|De onde você vem?
+Onde vais jogar?|Onde você vai jogar?
+O teu estilo|O seu estilo
+Escolhe a Seleção que vais representar.|Escolha a seleção que você vai representar.
+! Antes do primeiro treino… o que dizes ao grupo?|! Antes do primeiro treino… o que você diz ao grupo?
+Disseste ao grupo:|Você disse ao grupo:
+Assinaste pelo|Você assinou pelo
+A tua carreira começou!|Sua carreira começou!
+têm interesse em ti.|têm interesse em você.
+Recuperaste energia.|Você recuperou energia.
+Vais falhar|Você vai perder
+Treina, joga e ganha a confiança do treinador. Quando a época acabar, a próxima começa sozinha.|Treine, jogue e ganhe a confiança do técnico. Quando a temporada acabar, a próxima começa sozinha.
+Nova época|Nova temporada
+Fim da época|Fim da temporada
+ÉPOCAS|TEMPORADAS
+És o melhor jogador do mundo.|Você é o melhor jogador do mundo.`;
+const DL={en:{},es:{},pt:{}},DX={en:{},es:{},pt:{}};
+DICT.split("\n").forEach(l=>{if(!l)return;const x=l[0]==="=",[a,e,o]=(x?l.slice(1):l).split("|"),D=x?DX:DL;D.en[a]=e;D.es[a]=o});
+BRD.split("\n").forEach(l=>{if(!l)return;const x=l[0]==="=",[a,b]=(x?l.slice(1):l).split("|");(x?DX:DL).pt[a]=b});
+const reEsc=t=>t.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+const RXS={},rx=l=>RXS[l]||(RXS[l]=new RegExp(Object.keys(DL[l]).sort((a,b)=>b.length-a.length).map(reEsc).join("|"),"g"));
+function tr(t,l=cfg.lang){const k=t.trim();if(k&&DX[l][k]!==undefined)return t.replace(k,DX[l][k]);return t.replace(rx(l),m=>DL[l][m])}
+function trTree(n){
+ if(n.nodeType===3){const v=tr(n.nodeValue);if(v!==n.nodeValue)n.nodeValue=v;return}
+ if(n.nodeType!==1)return;const w=document.createTreeWalker(n,NodeFilter.SHOW_TEXT);let x;
+ while(x=w.nextNode()){const v=tr(x.nodeValue);if(v!==x.nodeValue)x.nodeValue=v}
+ n.querySelectorAll("[placeholder]").forEach(e=>e.placeholder=tr(e.placeholder))}
+const MO=new MutationObserver(ms=>{MO.disconnect();ms.forEach(m=>m.addedNodes.forEach(trTree));MO.observe(document.body,{childList:true,subtree:true})});
+MO.observe(document.body,{childList:true,subtree:true});
+function refresh(){const bd=$("bd");if(S){if(!(bd&&bd.style.display==="grid"))renderGame()}else if(currentUser&&W&&W.st!==undefined)wiz();else if(!currentUser)showSplash();
+ $("audioBtn").textContent="⚙️ "+({pt:"Configurações",en:"Settings",es:"Ajustes"})[cfg.lang]}
+function setCfg(k,v){cfg[k]=v;saveCfg();if(k==="music")v?musicStart():musicStop();if(k==="lang"){document.documentElement.lang=v;refresh()}if(k==="theme")applyTheme()}
+function setVol(v){cfg.vol=v/100;if(mus.g)mus.g.gain.value=cfg.vol*.6;saveCfg()}
+function openCfg(){const L=[["pt","Português"],["en","English"],["es","Español"]],SP=[["Lento",1200],["Normal",700],["Rápido",300]],on=b=>b?"on":"";
+ $("cmd").innerHTML=`<h2>⚙️ Configurações</h2><label>Idioma</label><div class="sub">${L.map(([k,n])=>`<button class="sp ${on(cfg.lang===k)}" onclick="setCfg('lang','${k}');openCfg()">${n}</button>`).join("")}</div>
+ <label style="display:block;margin-top:12px">Música</label><div class="sub"><button class="sp ${on(cfg.music)}" onclick="setCfg('music',true);openCfg()">🔊 Ligada</button><button class="sp ${on(!cfg.music)}" onclick="setCfg('music',false);openCfg()">🔇 Desligada</button><button class="sp" onclick="musicNext();openCfg()">⏭ Próxima</button></div>
+ <small class="m">${cfg.music&&mus.on?"🎵 "+MT[mus.i%MT.length].n:""}</small>
+ <label style="display:block;margin-top:8px">Volume</label><input type="range" min="0" max="100" value="${Math.round(cfg.vol*100)}" oninput="setVol(this.value)">
+ <label>Narração</label><div class="sub">${[["","Desligada"],["pt","Português (BR)"],["en","English"],["es","Español"]].map(([k,n])=>`<button class="sp ${on(cfg.narr===k)}" onclick="setCfg('narr','${k}');openCfg()">${n}</button>`).join("")}</div><label>Cor do tema</label>${sw()}<label>Velocidade dos jogos</label><div class="sub">${SP.map(([n,v])=>`<button class="sp ${on(cfg.speed===v)}" onclick="setCfg('speed',${v});openCfg()">${n}</button>`).join("")}</div>
+ <label style="display:block;margin-top:12px">Escalações antes do jogo</label><div class="sub"><button class="sp ${on(cfg.lineup)}" onclick="setCfg('lineup',true);openCfg()">Sim</button><button class="sp ${on(!cfg.lineup)}" onclick="setCfg('lineup',false);openCfg()">Não</button></div>
+ <div class="row"><button class="btn pr" onclick="$('cbd').style.display='none'">Fechar</button></div>`;$("cbd").style.display="grid"}
+const THC=["#b8f34a","#4ac8f3","#f3a64a","#f34a6b","#b04af3","#ffd400","#2ee6a6"];
+const hx=h=>{h=h.replace("#","");if(h.length===3)h=h.replace(/./g,"$&$&");return[0,2,4].map(i=>parseInt(h.slice(i,i+2),16))};
+function applyTheme(){let c=cfg.theme==="club"&&S?kc(S.club)[0]:cfg.theme;if(!/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(c))c="#b8f34a";
+ if(lum(c)<90)c="#"+hx(c).map(v=>Math.round(v+(255-v)*.5).toString(16).padStart(2,"0")).join("");
+ const r=document.documentElement.style;r.setProperty("--g",c);r.setProperty("--gt",lum(c)>140?"#16200c":"#fff")}
+function sw(){return`<div class="sub" style="justify-content:center;align-items:center;gap:8px;margin:0 0 16px">${THC.map(c=>`<button onclick="setCfg('theme','${c}')" style="width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,.4);background:${c};cursor:pointer;flex:none"></button>`).join("")}<button class="sp" style="padding:4px 10px" title="Cores do clube" onclick="setCfg('theme','club')">🎽</button><input type="color" value="${/^#[0-9a-f]{6}$/i.test(cfg.theme)?cfg.theme:"#b8f34a"}" oninput="setCfg('theme',this.value)" style="width:34px;height:30px;padding:0;margin:0;flex:none"></div>`}
+const NV={pt:"pt-BR",en:"en-US",es:"es-ES"};
+function bv(l){const vs=speechSynthesis.getVoices().filter(v=>{const c=v.lang.replace("_","-");return c.startsWith(NV[l])||c.startsWith(l)}),sc=v=>(/natural|neural|online/i.test(v.name)?4:0)+(/google/i.test(v.name)?3:0)+(v.lang.replace("_","-")===NV[l]?2:0);return vs.sort((x,y)=>sc(y)-sc(x))[0]}
+function narr(t){if(!cfg.narr||!window.speechSynthesis)return;try{const l=cfg.narr,g=/GOLO de|GOL de|GOAL/i.test(t);
+ let x=tr(t.replace(/(\d+)'/g,(m,n)=>n+({pt:" minutos. ",en:" minutes. ",es:" minutos. "})[l]),l).replace(/[^\p{L}\p{N}\s.,!?:\-]/gu," ").replace(/\s+/g," ").trim();if(!x)return;
+ if(g){speechSynthesis.cancel();x=({pt:"Gooooool! Que lance! ",en:"Gooooal! What a moment! ",es:"¡Gooooool! ¡Qué jugada! "})[l]+x}
+ const u=new SpeechSynthesisUtterance(x),v=bv(l);u.lang=NV[l];u.rate=g?1.15:1.05;u.pitch=g?1.25:1;u.volume=Math.min(1,cfg.vol*1.6+.2);if(v)u.voice=v;speechSynthesis.speak(u)}catch(e){}}
+/* música gerada no próprio jogo: 8 estilos que vão trocando sozinhos */
+const MT=[{n:"Aurora",r:60,sc:[0,2,4,5,7,9,11],b:76,w:"sine",p:[0,4,5,3]},{n:"Vestiário",r:57,sc:[0,2,3,5,7,8,10],b:70,w:"triangle",p:[0,5,2,6]},{n:"Estádio",r:62,sc:[0,2,4,5,7,9,11],b:96,w:"triangle",p:[0,3,4,0]},{n:"Noite de Jogo",r:55,sc:[0,2,3,5,7,9,10],b:66,w:"sine",p:[0,3,6,4]},{n:"Campo Aberto",r:64,sc:[0,2,4,7,9],b:88,w:"sine",p:[0,2,3,1]},{n:"Derby",r:59,sc:[0,2,3,5,7,8,11],b:104,w:"triangle",p:[0,5,6,4]},{n:"Final",r:58,sc:[0,2,4,5,7,9,11],b:92,w:"triangle",p:[0,4,5,3]},{n:"Madrugada",r:53,sc:[0,3,5,7,10],b:60,w:"sine",p:[0,3,2,4]}];
+const mus={on:false,i:0,b:0,g:null,tm:null};let AC=null;
+const sn=(T,d)=>T.r+T.sc[d%T.sc.length]+12*Math.floor(d/T.sc.length),fq=m=>440*Math.pow(2,(m-69)/12);
+function mtone(f,t,d,ty,v){const o=AC.createOscillator(),g=AC.createGain();o.type=ty;o.frequency.value=f;g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(v,t+.05);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(mus.g);o.start(t);o.stop(t+d+.1)}
+function mdr(t,k,v){if(k===0){const o=AC.createOscillator(),g=AC.createGain();o.frequency.setValueAtTime(160,t);o.frequency.exponentialRampToValueAtTime(42,t+.14);g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.0001,t+.22);o.connect(g);g.connect(mus.g);o.start(t);o.stop(t+.25)}
+ else{const n=Math.floor(AC.sampleRate*.1),b=AC.createBuffer(1,n,AC.sampleRate),d=b.getChannelData(0);for(let i=0;i<n;i++)d[i]=(Math.random()*2-1)*(1-i/n);const o=AC.createBufferSource(),f=AC.createBiquadFilter(),g=AC.createGain();o.buffer=b;f.type="highpass";f.frequency.value=k===1?1800:7500;g.gain.value=v;o.connect(f);f.connect(g);g.connect(mus.g);o.start(t)}}
+function mbar(){if(!mus.on)return;const T=MT[mus.i%MT.length],bt=60/(T.b+20),t=AC.currentTime+.05,d=T.p[mus.b%T.p.length];
+ [0,2,4].forEach(k=>mtone(fq(sn(T,d+k)),t,bt*4,"triangle",.045));
+ for(let i=0;i<8;i++){const x=t+i*bt/2;mtone(fq(sn(T,d)-12+(i%4===3?7:0)),x,bt*.45,"triangle",.1);mdr(x,2,.04);
+  if(i%4===0)mdr(x,0,.5);if(i===2||i===6)mdr(x,1,.2);if(i===5&&mus.b%2)mdr(x,0,.35);
+  if(Math.random()<.85)mtone(fq(sn(T,d+[0,2,4,7,9,7,4,2][i]+(i===7&&Math.random()<.3?1:0))+12),x,bt*.8,T.w,.05)}
+ mus.b++;if(mus.b%16===0)mus.i=(mus.i+1+Math.floor(Math.random()*(MT.length-1)))%MT.length;
+ mus.tm=setTimeout(mbar,bt*4000)}
+function musicStart(){try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==="suspended")AC.resume();
+ if(!mus.g){mus.g=AC.createGain();mus.g.connect(AC.destination)}mus.g.gain.value=cfg.vol*.6;if(mus.on)return;mus.on=true;mbar()}catch(e){console.error(e)}}
+function musicStop(){mus.on=false;clearTimeout(mus.tm)}
+function musicNext(){mus.i=(mus.i+1)%MT.length;mus.b=0}
+document.addEventListener("pointerdown",()=>{if(cfg.music&&!mus.on)musicStart()},{once:true});
+applyTheme();document.documentElement.lang=cfg.lang;$("audioBtn").textContent="⚙️ "+({pt:"Configurações",en:"Settings",es:"Ajustes"})[cfg.lang];
+
+/* ===================== START ===================== */
+showSplash();
+</script>
+</body>
+</html>
